@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+import Hero from '../components/Hero';
+import TrendChart from '../components/TrendChart';
+import RoleBar from '../components/RoleBar';
+import RoleBump from '../components/RoleBump';
+import SalaryStream from '../components/SalaryStream';
+import RoleRadar from '../components/RoleRadar';
+import AIAdoption from '../components/AIAdoption';
+---
+
+<Layout title="yazılımmaaş — 2026 Türkiye Yazılım Sektörü Maaş Raporu">
+  <!-- Rule #18: Brand mark is the thin gradient bar at top (in Layout) -->
+
+  <Hero client:load />
+  <TrendChart client:visible />
+  <RoleBar client:visible />
+  <AIAdoption client:visible />
+  <SalaryStream client:visible />
+  <RoleBump client:visible />
+  <RoleRadar client:visible />
+
+  <!-- Footer — Rule #4: minimal, deemphasized -->
+  <footer class="max-w-[960px] mx-auto px-6 py-16 border-t border-border mt-8">
+    <p class="text-sm font-semibold text-text mb-2">yazılımmaaş</p>
+    <p class="text-xs text-text-muted leading-relaxed">
+      Veri: önceki yazılımcı 2026 anketi · 5.002 katılımcı · 37 pozisyon<br />
+      Tüm veriler anonim anket sonuçlarına dayanmaktadır. Açık kaynak.
+    </p>
+  </footer>
+</Layout>

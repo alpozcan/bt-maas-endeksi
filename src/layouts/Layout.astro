@@ -1,0 +1,26 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = 'Türkiye yazılım sektörü maaş raporu — 5.002 katılımcı, 37 pozisyon, 2018-2026 verileri' } = Astro.props;
+---
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-bg min-h-screen">
+    <!-- Rule #18: Consistent brand mark — thin accent top bar -->
+    <div class="h-[3px] bg-gradient-to-r from-accent via-chart-2 to-chart-3 w-full fixed top-0 z-50" />
+
+    <slot />
+  </body>
+</html>

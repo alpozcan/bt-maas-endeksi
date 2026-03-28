@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/* ========================================
+   Design tokens extracted from:
+   - Financial Times (warm backgrounds)
+   - The Economist (chart styling, red accent)
+   - New York Times (typography hierarchy)
+   - Bloomberg (data density)
+   ======================================== */
+
+@theme {
+  /* Warm light-mode palette (FT-inspired) */
+  --color-bg: #FAFAF8;
+  --color-bg-white: #FFFFFF;
+  --color-bg-chart: #F5F5F2;
+  --color-bg-hover: #F0F0ED;
+
+  /* Text hierarchy (NYT rule: never pure black) */
+  --color-text: #1A1A1A;
+  --color-text-body: #333333;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-text-dim: #BBBBBB;
+
+  /* Borders & gridlines */
+  --color-border: #E5E5E5;
+  --color-gridline: #EBEBEB;
+  --color-border-hover: #D0D0D0;
+
+  /* Brand accent (Economist-inspired, single strong accent) */
+  --color-accent: #6366f1;
+  --color-accent-light: #818cf8;
+
+  /* Chart data palette (max 4-5 colors per chart) */
+  --color-chart-1: #6366f1;
+  --color-chart-2: #10b981;
+  --color-chart-3: #f59e0b;
+  --color-chart-4: #ef4444;
+  --color-chart-5: #8b5cf6;
+
+  /* Category colors */
+  --color-dev: #6366f1;
+  --color-data: #10b981;
+  --color-infra: #f59e0b;
+  --color-mgmt: #ef4444;
+
+  /* Typography (NYT: max 2 typefaces) */
+  --font-sans: "Inter", "Helvetica Neue", "Arial", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Consolas", monospace;
+
+  /* Shadows (subtle, premium) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+html {
+  background: var(--color-bg);
+  color: var(--color-text-body);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Rule #2: Tabular lining figures for all data */
+.data-value, .font-mono {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Rule #14: No card borders — whitespace separation */
+/* Use this class for subtle card containers */
+.card {
+  background: var(--color-bg-white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Rule #4: Source text styling */
+.source-text {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  opacity: 0.75;
+}
+
+/* Rule #12: Section spacing */
+.section {
+  padding-top: 64px;
+  padding-bottom: 32px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-border-hover); }
