@@ -85,43 +85,42 @@ export default function GlobalSalaryComparison() {
               const ratio = c.p50 / TURKEY_P50;
 
               return (
-                <div key={c.name}>
-                  <div
-                    className={`flex items-center gap-3 py-1.5 cursor-pointer transition-colors duration-150 ${
-                      isHighlight ? 'bg-chart-4/5 -mx-2 px-2 rounded-lg' :
-                      isHovered ? 'bg-accent/3 -mx-2 px-2 rounded-lg' : ''
-                    }`}
-                    onMouseEnter={() => setHovered(c.name)}
-                    onMouseLeave={() => setHovered(null)}
-                  >
-                    <span className="text-sm w-5">{c.flag}</span>
-                    <span className={`text-sm w-24 shrink-0 ${isHighlight ? 'font-semibold text-text' : 'text-text-body'}`}>
-                      {c.name}
-                    </span>
-                    <div className="flex-1 h-6 relative">
-                      <div
-                        className={`absolute top-0.5 h-5 rounded ${isHighlight ? 'bg-chart-4/30' : 'bg-accent/15'}`}
-                        style={{ left: `${barLeft}%`, width: `${barWidth}%` }}
-                      />
-                      <div
-                        className={`absolute top-0 h-6 w-0.5 ${isHighlight ? 'bg-chart-4' : 'bg-accent/60'}`}
-                        style={{ left: `${medianPos}%` }}
-                      />
-                      <span
-                        className={`absolute top-0.5 text-[10px] font-mono font-semibold ${isHighlight ? 'text-chart-4' : 'text-text-muted'}`}
-                        style={{ left: `${medianPos + 1}%` }}
-                      >
-                        {formatK(c.p50)}
-                      </span>
-                    </div>
-                    <span className="font-mono text-xs text-text-dim w-20 text-right">
-                      {c.submissions.toLocaleString('tr-TR')}
+                <div
+                  key={c.name}
+                  className={`relative flex items-center gap-3 py-1.5 cursor-pointer transition-colors duration-150 ${
+                    isHighlight ? 'bg-chart-4/5 -mx-2 px-2 rounded-lg' :
+                    isHovered ? 'bg-accent/3 -mx-2 px-2 rounded-lg' : ''
+                  }`}
+                  onMouseEnter={() => setHovered(c.name)}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  <span className="text-sm w-5">{c.flag}</span>
+                  <span className={`text-sm w-24 shrink-0 ${isHighlight ? 'font-semibold text-text' : 'text-text-body'}`}>
+                    {c.name}
+                  </span>
+                  <div className="flex-1 h-6 relative">
+                    <div
+                      className={`absolute top-0.5 h-5 rounded ${isHighlight ? 'bg-chart-4/30' : 'bg-accent/15'}`}
+                      style={{ left: `${barLeft}%`, width: `${barWidth}%` }}
+                    />
+                    <div
+                      className={`absolute top-0 h-6 w-0.5 ${isHighlight ? 'bg-chart-4' : 'bg-accent/60'}`}
+                      style={{ left: `${medianPos}%` }}
+                    />
+                    <span
+                      className={`absolute top-0.5 text-[10px] font-mono font-semibold ${isHighlight ? 'text-chart-4' : 'text-text-muted'}`}
+                      style={{ left: `${medianPos + 1}%` }}
+                    >
+                      {formatK(c.p50)}
                     </span>
                   </div>
+                  <span className="font-mono text-xs text-text-dim w-20 text-right">
+                    {c.submissions.toLocaleString('tr-TR')}
+                  </span>
 
-                  {/* Hover info box */}
+                  {/* Popover */}
                   {isHovered && !isHighlight && (
-                    <div className="ml-8 mr-20 mb-2 p-3 bg-bg-chart rounded-lg border border-border/50 text-xs animate-fadeIn">
+                    <div className="absolute left-28 -top-14 z-50 p-3 bg-white rounded-lg border border-border shadow-lg text-xs animate-fadeIn pointer-events-none">
                       <div className="flex items-center gap-4 font-mono">
                         <span className="text-text-muted">P25: <strong className="text-text">{formatFull(c.p25)}</strong></span>
                         <span className="text-text-muted">P50: <strong className="text-accent">{formatFull(c.p50)}</strong></span>
@@ -131,7 +130,7 @@ export default function GlobalSalaryComparison() {
                         {c.submissions.toLocaleString('tr-TR')} beyan
                         {ratio > 1
                           ? ` · Türkiye medyanının ${ratio.toFixed(1)} katı`
-                          : ` · Türkiye medyanının %${Math.round((1 - ratio) * 100)}'i kadar düşük`
+                          : ` · Türkiye medyanından %${Math.round((1 - ratio) * 100)} daha düşük`
                         }
                       </div>
                     </div>

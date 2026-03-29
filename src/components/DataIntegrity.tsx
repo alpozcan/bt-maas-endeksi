@@ -15,31 +15,31 @@ const comparison = [
     metric: 'Katılımcı sayısı',
     onceki: '5.002',
     levels: '326',
-    note: 'önceki yazılımcı 15 kat daha fazla katılımcıya sahip',
+    note: 'önceki yazılımcı 15 kat daha geniş örnekleme sahip',
   },
   {
-    metric: 'Kapsam',
+    metric: 'Ölçüm kapsamı',
     onceki: 'Aylık net maaş (TRY)',
     levels: 'Toplam ücret: maaş + hisse + bonus (USD)',
-    note: 'Farklı ölçüm kapsamları',
+    note: 'Levels.fyi hisse ve bonusu dahil eder, önceki yazılımcı yalnızca net maaşı sorar',
   },
   {
     metric: 'Junior medyan',
     onceki: `₺65.500/ay = ~$${tryToUsd(65500).toLocaleString('tr-TR')}/yıl`,
     levels: '$27.900/yıl (P25)',
-    note: 'Kur ve brüt/net farkı etkisi',
+    note: `Levels.fyi P25 değeri, önceki yazılımcı brüt dönüşümünden %${Math.round((1 - 27900 / tryToUsd(65500)) * 100)} düşük`,
   },
   {
     metric: 'Mid medyan',
     onceki: `₺102.500/ay = ~$${tryToUsd(102500).toLocaleString('tr-TR')}/yıl`,
     levels: '$38.600/yıl (P50)',
-    note: 'Levels.fyi verisi daha düşük',
+    note: `Levels.fyi medyanı, önceki yazılımcı brüt dönüşümünden %${Math.round((1 - 38600 / tryToUsd(102500)) * 100)} düşük`,
   },
   {
     metric: 'Senior medyan',
     onceki: `₺172.500/ay = ~$${tryToUsd(172500).toLocaleString('tr-TR')}/yıl`,
     levels: '$52.050/yıl (P75)',
-    note: 'En yakın eşleşme',
+    note: `Levels.fyi P75 değeri, önceki yazılımcı brüt dönüşümünden %${Math.round((1 - 52050 / tryToUsd(172500)) * 100)} düşük`,
   },
 ];
 
