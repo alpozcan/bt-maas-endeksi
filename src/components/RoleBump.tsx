@@ -15,7 +15,7 @@ const bumpData = [
   { id: 'Backend',      data: bumpYears.map((x, i) => ({ x, y: [4,4,4,7,7,7,7][i] })) },
   { id: 'Cloud',        data: bumpYears.map((x, i) => ({ x, y: [8,7,6,9,8,8,8][i] })) },
   { id: 'iOS',          data: bumpYears.map((x, i) => ({ x, y: [6,6,10,10,9,9,9][i] })) },
-  { id: 'Güvenlik',     data: bumpYears.map((x, i) => ({ x, y: [7,10,12,12,10,10,10][i] })) },
+  { id: 'Siber Güvenlik', data: bumpYears.map((x, i) => ({ x, y: [7,10,12,12,10,10,10][i] })) },
   { id: 'Full Stack',   data: bumpYears.map((x, i) => ({ x, y: [9,8,7,11,11,11,11][i] })) },
   { id: 'Veri Bilimci', data: bumpYears.map((x, i) => ({ x, y: [11,9,8,5,12,12,12][i] })) },
   { id: 'Frontend',     data: bumpYears.map((x, i) => ({ x, y: [10,12,13,13,13,13,13][i] })) },
@@ -46,7 +46,7 @@ export default function RoleBump() {
     <FadeIn>
       <section className="max-w-[960px] mx-auto px-6 section" data-section="bump">
         <h2 className="text-2xl font-bold text-text tracking-tight mb-1">
-          AI Engineer 2020'de 14. sıradayken bugün 4. sıraya yükseldi
+          AI Engineer 2020'de 14. sıradayken 2026 itibarıyla 4. sıraya yükseldi
         </h2>
         <p className="text-sm text-text-secondary mb-6 leading-relaxed max-w-[700px]">
           AI mühendisliği, ChatGPT sonrası dönemde hızla yükseldi ve 2024 itibarıyla dördüncü sıraya oturdu.
