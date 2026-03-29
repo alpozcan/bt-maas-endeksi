@@ -50,7 +50,7 @@ export default function Hero() {
         </h1>
 
         {/* Rule #20: Descriptive subtitle */}
-        <p className="text-lg text-text-secondary leading-relaxed max-w-[600px] mb-12">
+        <p className="text-lg text-text-secondary leading-relaxed max-w-[650px] mb-12">
           2018'den 2026'ya, binlerce yazılımcının anonim katılımıyla oluşturulan
           Türkiye'nin en kapsamlı maaş analizi. Veriye dayalı, bağımsız, açık kaynak.
         </p>
