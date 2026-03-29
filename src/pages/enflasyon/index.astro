@@ -147,7 +147,7 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
           const isFirst = i === 0;
           const isLast = i === tantuniPerSalary.length - 1;
           return (
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3" title={`Tantuni: ₺${row.price}, Maaş: ₺${row.salary.toLocaleString('tr-TR')}`}>
               <span class="font-mono text-xs text-text-dim w-10">{row.year}</span>
               <div class="flex-1 h-7 bg-bg-chart rounded relative overflow-hidden">
                 <div
@@ -158,13 +158,12 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
                   {row.count} tantuni
                 </span>
               </div>
-              <span class="font-mono text-[10px] text-text-dim w-28 text-right">
-                ₺{row.price} / tantuni, ₺{(row.salary / 1000).toFixed(0)}K maaş
-              </span>
+              <span class="font-mono text-xs text-text-dim w-14 text-right">₺{row.price}</span>
             </div>
           );
         })}
       </div>
+      <p class="text-[10px] text-text-dim mt-2">Satır üzerine geldiğinizde maaş detayını görebilirsiniz.</p>
 
       <p class="source-text mt-4">
         Kaynak:
@@ -212,6 +211,13 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
           );
         })}
       </div>
+
+      <p class="source-text mt-4">
+        Kaynak:
+        <a href="https://taxsummaries.pwc.com/turkey/individual/taxes-on-personal-income" target="_blank" rel="noopener" class="text-accent hover:underline">PwC Tax Summaries</a>,
+        <a href="https://www.gib.gov.tr/gibmevzuat" target="_blank" rel="noopener" class="text-accent hover:underline">GİB Mevzuat</a>,
+        <a href="https://www.oecd.org/tax/tax-policy/taxing-wages-turkey.pdf" target="_blank" rel="noopener" class="text-accent hover:underline">OECD Taxing Wages</a>
+      </p>
     </div>
 
     <!-- TURKEY TAX BREAKDOWN -->

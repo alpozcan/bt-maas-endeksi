@@ -38,4 +38,5 @@ mockups/
 INSTRUCTIONS.md
 RESEARCH_BRIEF.md
 dse_results/
-docs/experiment-log.md
+docs/
+src/scripts/
