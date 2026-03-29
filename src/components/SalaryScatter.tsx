@@ -80,8 +80,8 @@ export default function SalaryScatter() {
 
   const cityMatches = useMemo(() => {
     if (!cityInput) return [];
-    const q = cityInput.toLowerCase();
-    return cities.filter(c => c.toLowerCase().includes(q)).slice(0, 8);
+    const q = cityInput.toLocaleLowerCase('tr-TR');
+    return cities.filter(c => c.toLocaleLowerCase('tr-TR').includes(q));
   }, [cityInput, cities]);
 
   if (loading) {
@@ -102,8 +102,8 @@ export default function SalaryScatter() {
             placeholder="Şehir ara..."
             className="px-3 py-1.5 rounded-lg border border-border bg-bg-white text-text text-sm outline-none focus:border-accent w-48"
           />
-          {showSuggestions && (cityInput ? cityMatches : cities.slice(0, 10)).length > 0 && (
-            <div className="absolute top-full left-0 right-0 z-50 bg-bg-white border border-border rounded-lg mt-1 overflow-hidden shadow-md">
+          {showSuggestions && (cityInput ? cityMatches : cities).length > 0 && (
+            <div className="absolute top-full left-0 right-0 z-50 bg-bg-white border border-border rounded-lg mt-1 shadow-md max-h-60 overflow-y-auto">
               {!cityInput && (
                 <button
                   onClick={() => { setCityFilter(''); setCityInput(''); setShowSuggestions(false); }}
@@ -112,7 +112,7 @@ export default function SalaryScatter() {
                   Tümü ({data.length.toLocaleString('tr-TR')})
                 </button>
               )}
-              {(cityInput ? cityMatches : cities.slice(0, 10)).map(c => (
+              {(cityInput ? cityMatches : cities).map(c => (
                 <button
                   key={c}
                   onClick={() => { setCityFilter(c); setCityInput(c); setShowSuggestions(false); }}

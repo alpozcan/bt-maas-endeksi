@@ -4,29 +4,84 @@ import Footer from '../../components/Footer.astro';
 import IznimvarBanner from '../../components/IznimvarBanner.astro';
 import '../../styles/global.css';
 
-// Inflation data (ENAG independent vs TUIK official)
+// ENAG vs TUIK annual inflation rates
+const inflationData = [
+  { year: 2018, tuik: 20.3, enag: null },
+  { year: 2019, tuik: 11.8, enag: null },
+  { year: 2020, tuik: 14.6, enag: 36.7 },
+  { year: 2021, tuik: 36.1, enag: 82.8 },
+  { year: 2022, tuik: 72.3, enag: 137.6 },
+  { year: 2023, tuik: 53.9, enag: 127.2 },
+  { year: 2024, tuik: 44.4, enag: 110.0 },
+  { year: 2025, tuik: 30.9, enag: 56.1 },
+];
+
+// Cumulative multipliers since 2018
 const years = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
-const enagCumulative = [1, 1.35, 1.85, 3.2, 10.8, 22.5, 38.4, 59.6]; // multipliers since 2018
+const enagCumulative = [1, 1.35, 1.85, 3.2, 10.8, 22.5, 38.4, 59.6];
 const tuikCumulative = [1, 1.12, 1.27, 1.63, 3.81, 6.48, 10.1, 14.2];
 
-// What a junior's salary SHOULD be if it kept up with ENAG inflation
-const junior2018 = 3000; // TRY monthly net
+// Junior salary: nominal vs ENAG-adjusted
+const junior2018 = 3000;
 const nominalJunior = [3000, 3500, 4500, 5500, 8500, 17500, 34500, 49500];
 const enagAdjusted = enagCumulative.map(m => Math.round(junior2018 * m));
-
-// Purchasing power: how much can you buy
 const purchasingPowerLoss = Math.round((1 - nominalJunior[7] / enagAdjusted[7]) * 100);
+
+// Mid-level salary: nominal vs ENAG-adjusted
+const mid2018 = 4500;
+const nominalMid = [4500, 5500, 6500, 8500, 13500, 26500, 50500, 74500];
+const midEnagAdjusted = enagCumulative.map(m => Math.round(mid2018 * m));
+
+// Tax rates by country (mid-level developer, employee-side total burden)
+const taxData = [
+  { country: 'Estonya', flag: '🇪🇪', rate: 24, netUSD: 56000, gross: '€67K' },
+  { country: 'İsviçre', flag: '🇨🇭', rate: 24, netUSD: 106000, gross: 'CHF 124K' },
+  { country: 'İngiltere', flag: '🇬🇧', rate: 30, netUSD: 96000, gross: '£85K' },
+  { country: 'ABD', flag: '🇺🇸', rate: 32, netUSD: 82000, gross: '$120K' },
+  { country: 'İspanya', flag: '🇪🇸', rate: 32, netUSD: 37000, gross: '€50K' },
+  { country: 'Japonya', flag: '🇯🇵', rate: 32, netUSD: 39000, gross: '¥8.5M' },
+  { country: 'Türkiye', flag: '🇹🇷', rate: 36, netUSD: 18700, gross: '₺900K/yıl' },
+  { country: 'Hollanda', flag: '🇳🇱', rate: 38, netUSD: 61000, gross: '€90K' },
+  { country: 'Almanya', flag: '🇩🇪', rate: 40, netUSD: 54000, gross: '€82K' },
+  { country: 'Danimarka', flag: '🇩🇰', rate: 40, netUSD: 60000, gross: 'DKK 685K' },
+];
+
+// Rent-to-salary ratio (1BR city center, mid-level dev)
+const rentData = [
+  { city: 'San Francisco', flag: '🇺🇸', rent: 3413, salary: 10000, ratio: 34 },
+  { city: 'Londra', flag: '🇬🇧', rent: 3134, salary: 9000, ratio: 35 },
+  { city: 'Amsterdam', flag: '🇳🇱', rent: 2591, salary: 8333, ratio: 31 },
+  { city: 'İstanbul', flag: '🇹🇷', rent: 1083, salary: 2500, ratio: 43 },
+  { city: 'Berlin', flag: '🇩🇪', rent: 1456, salary: 7500, ratio: 19 },
+  { city: 'Kopenhag', flag: '🇩🇰', rent: 1800, salary: 8333, ratio: 22 },
+  { city: 'Tokyo', flag: '🇯🇵', rent: 1130, salary: 4750, ratio: 24 },
+  { city: 'Madrid', flag: '🇪🇸', rent: 1200, salary: 4583, ratio: 26 },
+  { city: 'Tallinn', flag: '🇪🇪', rent: 850, salary: 6167, ratio: 14 },
+];
+
+const sortedRent = [...rentData].sort((a, b) => b.ratio - a.ratio);
+const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
 ---
 
-<Layout title="Enflasyon ve Satın Alma Gücü — yazılımmaaş" active="enflasyon" description="Yazılımcı maaşları enflasyona yetişebildi mi? ENAG vs TUIK karşılaştırması ve satın alma gücü analizi.">
-  <section class="max-w-[960px] mx-auto px-6 pt-16 pb-8">
+<Layout title="Enflasyon ve Satın Alma Gücü — yazılımmaaş" active="enflasyon" description="Yazılımcı maaşları enflasyona yetişebildi mi? ENAG vs TUIK, vergi yükü, kira/maaş oranı ve satın alma gücü analizi.">
+  <section class="max-w-[960px] mx-auto px-6 pt-16 pb-4">
     <h1 class="text-3xl font-bold text-text tracking-tight mb-2">Yazılımcı Maaşları ve Enflasyon</h1>
-    <p class="text-sm text-text-secondary leading-relaxed max-w-[600px] mb-10">
-      2018'den bu yana yazılımcı maaşları nominal olarak 16 kat arttı — ama bağımsız
-      enflasyon verileri (ENAG) farklı bir tablo çiziyor.
+    <p class="text-base text-text-secondary leading-relaxed max-w-[700px] mb-4">
+      2018'den bu yana yazılımcı maaşları nominal olarak 16 kat arttı. Ancak bağımsız
+      enflasyon verileri (ENAG) farklı bir tablo çiziyor: aynı dönemde fiyatlar
+      yaklaşık 60 kat yükseldi. Bir başka deyişle, maaş zammı yalnızca enflasyonun
+      dörtte birini karşılayabildi.
     </p>
+    <p class="text-sm text-text-muted leading-relaxed max-w-[700px] mb-10">
+      Bu sayfa, resmi (TÜİK) ve bağımsız (ENAG) enflasyon verilerini karşılaştırarak
+      yazılımcının gerçek satın alma gücündeki erimenin boyutunu ortaya koyuyor.
+      Vergi yükü ve kira oranlarıyla birlikte değerlendirildiğinde, nominal maaş
+      artışlarının neden "hissedilmediği" anlaşılıyor.
+    </p>
+  </section>
 
-    <!-- KPI Cards -->
+  <!-- KPI Cards -->
+  <section class="max-w-[960px] mx-auto px-6 pb-8">
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
       <div class="bg-bg-white rounded-xl shadow-sm p-5 text-center">
         <div class="text-3xl font-black text-chart-4 font-mono mb-1">%{purchasingPowerLoss}</div>
@@ -36,7 +91,7 @@ const purchasingPowerLoss = Math.round((1 - nominalJunior[7] / enagAdjusted[7]) 
       <div class="bg-bg-white rounded-xl shadow-sm p-5 text-center">
         <div class="text-3xl font-black text-accent font-mono mb-1">16x</div>
         <div class="text-xs text-text-muted">Nominal maaş artışı</div>
-        <div class="text-[10px] text-text-dim mt-0.5">Junior: ₺3K → ₺49.5K</div>
+        <div class="text-[10px] text-text-dim mt-0.5">Junior: ₺3.000 → ₺49.500</div>
       </div>
       <div class="bg-bg-white rounded-xl shadow-sm p-5 text-center">
         <div class="text-3xl font-black text-chart-3 font-mono mb-1">59.6x</div>
@@ -46,15 +101,22 @@ const purchasingPowerLoss = Math.round((1 - nominalJunior[7] / enagAdjusted[7]) 
       <div class="bg-bg-white rounded-xl shadow-sm p-5 text-center">
         <div class="text-3xl font-black text-text font-mono mb-1">%43</div>
         <div class="text-xs text-text-muted">Kira/maaş oranı</div>
-        <div class="text-[10px] text-text-dim mt-0.5">İstanbul 1+1, mid-level</div>
+        <div class="text-[10px] text-text-dim mt-0.5">İstanbul 1+1, mid-level yazılımcı</div>
       </div>
     </div>
 
-    <!-- What your salary SHOULD be -->
+    <!-- EDITORIAL: What your salary SHOULD be -->
     <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
-      <h2 class="text-lg font-bold text-text mb-1">Maaşın Ne Olmalıydı?</h2>
-      <p class="text-sm text-text-secondary mb-6">
-        2018 Junior maaşı (₺3.000) ENAG enflasyonuna göre güncellenseydi
+      <h2 class="text-xl font-bold text-text mb-1">Maaşın Gerçekte Ne Olmalıydı?</h2>
+      <p class="text-sm text-text-secondary mb-2 leading-relaxed max-w-[700px]">
+        Aşağıdaki grafik, 2018 yılındaki bir junior yazılımcının ₺3.000'lik maaşının
+        ENAG enflasyonuyla güncellenmesi durumunda bugün ne olması gerektiğini gösteriyor.
+        Mavi çubuk gerçek maaşı, kırmızı arka plan olması gereken düzeyi temsil ediyor.
+      </p>
+      <p class="text-xs text-text-muted mb-6 leading-relaxed max-w-[700px]">
+        2025 itibarıyla aradaki fark ₺{Math.round((enagAdjusted[7] - nominalJunior[7]) / 1000)}K'ye ulaştı —
+        yani bir junior yazılımcının maaşı, enflasyona ayak uydurabilmek için yaklaşık
+        ₺{Math.round(enagAdjusted[7] / 1000)}K olmalıydı.
       </p>
 
       <div class="space-y-3">
@@ -72,13 +134,13 @@ const purchasingPowerLoss = Math.round((1 - nominalJunior[7] / enagAdjusted[7]) 
                   <span>Olması gereken: ₺{shouldBe.toLocaleString('tr-TR')}</span>
                 </div>
                 <div class="h-5 bg-bg-chart rounded relative overflow-hidden">
-                  <div class="h-full rounded bg-chart-4/30 absolute inset-0" />
+                  <div class="h-full rounded bg-chart-4/25 absolute inset-0" />
                   <div class="h-full rounded bg-accent/70 relative" style={`width: ${pctOfTarget.toFixed(0)}%`} />
                 </div>
               </div>
               {gap > 0 && (
-                <span class="font-mono text-xs text-chart-4 w-20 text-right">
-                  -₺{Math.round(gap / 1000)}K
+                <span class="font-mono text-xs text-chart-4 w-24 text-right">
+                  -₺{Math.round(gap / 1000)}K fark
                 </span>
               )}
             </div>
@@ -87,34 +149,45 @@ const purchasingPowerLoss = Math.round((1 - nominalJunior[7] / enagAdjusted[7]) 
       </div>
 
       <p class="source-text mt-4">
-        ENAG: Enflasyon Araştırma Grubu (bağımsız) · TÜİK: Türkiye İstatistik Kurumu (resmi)
+        ENAG: Enflasyon Araştırma Grubu (bağımsız) ·
+        <a href="https://enagrup.org" target="_blank" rel="noopener" class="text-accent hover:underline">enagrup.org</a>
       </p>
     </div>
 
-    <!-- ENAG vs TUIK comparison -->
+    <!-- ENAG vs TUIK table -->
     <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
-      <h2 class="text-lg font-bold text-text mb-1">ENAG vs TÜİK: Kümülatif Enflasyon</h2>
-      <p class="text-sm text-text-secondary mb-6">2018 = 1x baz (kümülatif çarpan)</p>
+      <h2 class="text-xl font-bold text-text mb-1">ENAG vs TÜİK: Yıllık Enflasyon Oranları</h2>
+      <p class="text-sm text-text-secondary mb-2 leading-relaxed max-w-[700px]">
+        ENAG, 2020 yılında kurulmuş bağımsız bir enflasyon ölçüm grubudur. Aşağıdaki
+        tablo, resmi TÜİK rakamlarının bağımsız ölçümlerden ne kadar ayrıştığını gösteriyor.
+      </p>
+      <p class="text-xs text-text-muted mb-6">
+        2022'de fark en yüksek seviyesine ulaştı: TÜİK %72 derken ENAG %138 açıkladı.
+      </p>
 
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead>
             <tr class="border-b border-border">
               <th class="text-left py-2 text-xs text-text-muted font-medium">Yıl</th>
-              <th class="text-right py-2 text-xs text-text-muted font-medium">ENAG (x)</th>
-              <th class="text-right py-2 text-xs text-text-muted font-medium">TÜİK (x)</th>
-              <th class="text-right py-2 text-xs text-text-muted font-medium">Fark</th>
+              <th class="text-right py-2 text-xs text-text-muted font-medium">TÜİK (%)</th>
+              <th class="text-right py-2 text-xs text-text-muted font-medium">ENAG (%)</th>
+              <th class="text-right py-2 text-xs text-text-muted font-medium">Fark (kat)</th>
+              <th class="text-right py-2 text-xs text-text-muted font-medium">Küm. ENAG (x)</th>
             </tr>
           </thead>
           <tbody>
-            {years.map((year, i) => (
+            {inflationData.map((row, i) => (
               <tr class="border-b border-border/50">
-                <td class="py-2 font-mono text-xs text-text">{year}</td>
-                <td class="py-2 font-mono text-xs text-chart-4 text-right">{enagCumulative[i]}x</td>
-                <td class="py-2 font-mono text-xs text-text-secondary text-right">{tuikCumulative[i]}x</td>
-                <td class="py-2 font-mono text-xs text-text-dim text-right">
-                  {(enagCumulative[i] / tuikCumulative[i]).toFixed(1)}x
+                <td class="py-2.5 font-mono text-xs text-text">{row.year}</td>
+                <td class="py-2.5 font-mono text-xs text-text-secondary text-right">%{row.tuik}</td>
+                <td class="py-2.5 font-mono text-xs text-chart-4 text-right">
+                  {row.enag !== null ? `%${row.enag}` : '—'}
                 </td>
+                <td class="py-2.5 font-mono text-xs text-text-dim text-right">
+                  {row.enag !== null ? `${(row.enag / row.tuik).toFixed(1)}x` : '—'}
+                </td>
+                <td class="py-2.5 font-mono text-xs text-accent text-right">{enagCumulative[i]}x</td>
               </tr>
             ))}
           </tbody>
@@ -122,7 +195,118 @@ const purchasingPowerLoss = Math.round((1 - nominalJunior[7] / enagAdjusted[7]) 
       </div>
 
       <p class="source-text mt-4">
-        Kaynak: ENAG (enagrup.org), TÜİK (tuik.gov.tr) · Numbeo yaşam maliyeti verileri
+        Kaynak:
+        <a href="https://enagrup.org" target="_blank" rel="noopener" class="text-accent hover:underline">ENAG</a>,
+        <a href="https://tuik.gov.tr" target="_blank" rel="noopener" class="text-accent hover:underline">TÜİK</a>
+      </p>
+    </div>
+
+    <!-- TAX RATES -->
+    <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
+      <h2 class="text-xl font-bold text-text mb-1">Ülkelere Göre Efektif Vergi Yükü</h2>
+      <p class="text-sm text-text-secondary mb-2 leading-relaxed max-w-[700px]">
+        Aşağıdaki tablo, orta seviye bir yazılımcının brüt maaşından eline geçen
+        net tutarı etkileyen toplam vergi yükünü ülkelere göre karşılaştırıyor.
+        Türkiye'nin efektif vergi oranı %36 ile orta sıralarda yer alsa da,
+        net maaşın dolar karşılığı en düşük seviyede.
+      </p>
+      <p class="text-xs text-text-muted mb-6">
+        Bir Türk yazılımcı, yıllık net $18.700 kazanırken aynı vergi dilimindeki
+        bir ABD'li yazılımcı $82.000 kazanıyor — 4.4 kat fark.
+      </p>
+
+      <div class="space-y-2">
+        {[...taxData].sort((a, b) => a.rate - b.rate).map(row => {
+          const isHighlight = row.flag === '🇹🇷';
+          return (
+            <div class={`flex items-center gap-3 py-1.5 ${isHighlight ? 'bg-chart-4/5 -mx-2 px-2 rounded-lg' : ''}`}>
+              <span class="text-sm w-5">{row.flag}</span>
+              <span class={`text-sm w-24 ${isHighlight ? 'font-semibold text-text' : 'text-text-body'}`}>{row.country}</span>
+              <div class="flex-1 h-5 bg-bg-chart rounded overflow-hidden">
+                <div
+                  class={`h-full rounded ${isHighlight ? 'bg-chart-4/60' : 'bg-accent/40'}`}
+                  style={`width: ${(row.rate / 45) * 100}%`}
+                />
+              </div>
+              <span class={`font-mono text-xs w-10 text-right ${isHighlight ? 'text-chart-4 font-bold' : 'text-text-muted'}`}>
+                %{row.rate}
+              </span>
+              <span class="font-mono text-xs text-text-dim w-20 text-right">${row.netUSD.toLocaleString('en-US')}/yıl</span>
+            </div>
+          );
+        })}
+      </div>
+
+      <p class="source-text mt-4">
+        Kaynak:
+        <a href="https://taxsummaries.pwc.com" target="_blank" rel="noopener" class="text-accent hover:underline">PwC Tax Summaries</a>
+        · Orta seviye yazılımcı, çalışan tarafı toplam yük
+      </p>
+    </div>
+
+    <!-- RENT vs SALARY -->
+    <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
+      <h2 class="text-xl font-bold text-text mb-1">Kira ve Maaş: Uluslararası Karşılaştırma</h2>
+      <p class="text-sm text-text-secondary mb-2 leading-relaxed max-w-[700px]">
+        Bir yazılımcının şehir merkezinde 1+1 daire kirası, aylık net maaşının ne
+        kadarını yiyor? İstanbul %43 ile listenin en üst sırasında — Berlin'in iki
+        katından fazla, Tallinn'in üç katı.
+      </p>
+      <p class="text-xs text-text-muted mb-6">
+        Nominal kira düşük görünse de ($1.083), düşük maaşla birleşince oran dramatik oluyor.
+      </p>
+
+      <div class="space-y-2">
+        {sortedRent.map(row => {
+          const isHighlight = row.flag === '🇹🇷';
+          return (
+            <div class={`flex items-center gap-3 py-1.5 ${isHighlight ? 'bg-chart-4/5 -mx-2 px-2 rounded-lg' : ''}`}>
+              <span class="text-sm w-5">{row.flag}</span>
+              <span class={`text-sm w-28 ${isHighlight ? 'font-semibold text-text' : 'text-text-body'}`}>{row.city}</span>
+              <div class="flex-1 h-5 bg-bg-chart rounded overflow-hidden">
+                <div
+                  class={`h-full rounded ${isHighlight ? 'bg-chart-4/60' : 'bg-accent/40'}`}
+                  style={`width: ${(row.ratio / maxRatio) * 100}%`}
+                />
+              </div>
+              <span class={`font-mono text-xs w-10 text-right ${isHighlight ? 'text-chart-4 font-bold' : 'text-text-muted'}`}>
+                %{row.ratio}
+              </span>
+              <span class="font-mono text-xs text-text-dim w-28 text-right">
+                ${row.rent} / ${row.salary}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      <p class="source-text mt-4">
+        Kaynak:
+        <a href="https://www.numbeo.com" target="_blank" rel="noopener" class="text-accent hover:underline">Numbeo</a>,
+        <a href="https://www.expatistan.com" target="_blank" rel="noopener" class="text-accent hover:underline">Expatistan</a>
+        · 1+1 daire, şehir merkezi, Ocak 2025
+      </p>
+    </div>
+
+    <!-- EDITORIAL CONCLUSION -->
+    <div class="bg-bg-chart rounded-xl p-6 mb-8">
+      <h2 class="text-lg font-bold text-text mb-3">Neden Zam Hissedilmiyor?</h2>
+      <p class="text-sm text-text-body leading-relaxed mb-3">
+        Türkiye'deki bir yazılımcının nominal maaşı 2018'den bu yana 16 kat artmış
+        olsa da, bağımsız enflasyon verileri fiyatların yaklaşık 60 kat yükseldiğini
+        gösteriyor. Bu, <strong>gerçek satın alma gücünün %{purchasingPowerLoss} oranında
+        eridiği</strong> anlamına geliyor.
+      </p>
+      <p class="text-sm text-text-body leading-relaxed mb-3">
+        Tabloya vergi yükü eklendiğinde durum daha da netleşiyor: %36'lık efektif
+        vergi oranıyla Türkiye, orta sıralarda yer alsa da net maaşın dolar
+        karşılığı ($18.700/yıl) karşılaştırılan ülkelerin en düşüğü.
+      </p>
+      <p class="text-sm text-text-body leading-relaxed">
+        Kira/maaş oranında İstanbul %43 ile zirvede. Berlin'de (%19) ya da
+        Tallinn'de (%14) aynı mesleği yapan bir yazılımcı, maaşının çok daha az
+        bir kısmını barınmaya ayırıyor. Bu üç faktör — enflasyon, vergi, kira —
+        bir araya geldiğinde, nominal zam oranlarının neden "hissedilmediğini" açıklıyor.
       </p>
     </div>
   </section>
