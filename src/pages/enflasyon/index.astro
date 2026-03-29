@@ -40,6 +40,7 @@ const tantuniPerSalary = nominalMid.map((sal, i) => ({
 }));
 
 // Tax rates by country (mid-level developer, employee-side + Turkey breakdown)
+// TR mid-level: ₺102.500 net/ay x 12 / 37 = $33.200/yıl net
 const taxData = [
   { country: 'Estonya', flag: '🇪🇪', rate: 24, netUSD: 56000 },
   { country: 'İsviçre', flag: '🇨🇭', rate: 24, netUSD: 106000 },
@@ -47,25 +48,25 @@ const taxData = [
   { country: 'ABD', flag: '🇺🇸', rate: 32, netUSD: 82000 },
   { country: 'İspanya', flag: '🇪🇸', rate: 32, netUSD: 37000 },
   { country: 'Japonya', flag: '🇯🇵', rate: 32, netUSD: 39000 },
-  { country: 'Türkiye (çalışan)', flag: '🇹🇷', rate: 36, netUSD: 18700, highlight: true },
   { country: 'Hollanda', flag: '🇳🇱', rate: 38, netUSD: 61000 },
+  { country: 'Türkiye (maaşlı çalışan)', flag: '🇹🇷', rate: 39, netUSD: 33200, highlight: true },
   { country: 'Almanya', flag: '🇩🇪', rate: 40, netUSD: 54000 },
   { country: 'Danimarka', flag: '🇩🇰', rate: 40, netUSD: 60000 },
-  { country: 'TR stopaj + SGK + damga', flag: '🇹🇷', rate: 42, netUSD: 16500, highlight: true },
-  { country: 'TR şirket sahibi (toplam)', flag: '🇹🇷', rate: 52, netUSD: 12800, highlight: true },
+  { country: 'TR serbest meslek (freelancer)', flag: '🇹🇷', rate: 42, netUSD: 29000, highlight: true },
+  { country: 'TR şirket sahibi (tahmini)', flag: '🇹🇷', rate: 45, netUSD: 22000, highlight: true },
 ];
 
 // Turkey hidden tax breakdown for detail section
 const turkeyTaxBreakdown = [
-  { name: 'Gelir vergisi (GV)', rate: '15-40', note: 'Artan oranlı, ₺110K üzeri %40' },
-  { name: 'SGK işçi payı', rate: '14', note: 'Brüt maaş üzerinden' },
-  { name: 'SGK işveren payı', rate: '20.5', note: 'İşveren tarafı, çalışana yansımaz ama maliyeti artırır' },
-  { name: 'İşsizlik sigortası', rate: '1', note: 'İşçi payı' },
-  { name: 'Damga vergisi', rate: '0.759', note: 'Her maaş ödemesinde kesilen sabit oran' },
-  { name: 'Stopaj (kaynakta kesinti)', rate: '20', note: 'Serbest meslek / fatura kesenlerde' },
-  { name: 'Kurumlar vergisi', rate: '25', note: 'Şirket karı üzerinden (2024 itibarıyla)' },
-  { name: 'KDV', rate: '20', note: 'Hizmet faturalarında, şirket sahibi olarak yansır' },
-  { name: 'Geçici vergi', rate: '25', note: 'Kurumlar vergisinin üç aylık peşin ödemesi' },
+  { name: 'Gelir vergisi (GV)', rate: '15-40', note: 'Artan oranlı; ₺158K\'ya kadar %15, ₺330K-1,2M arası %27, ₺4,3M üzeri %40' },
+  { name: 'SGK işçi payı', rate: '14', note: 'Brüt maaş üzerinden, tavan sınırına tabi' },
+  { name: 'SGK işveren payı', rate: '20,75', note: 'İşveren tarafı; çalışana yansımaz ama toplam istihdam maliyetini artırır' },
+  { name: 'İşsizlik sigortası (işçi)', rate: '1', note: 'Brüt maaş üzerinden işçi payı' },
+  { name: 'Damga vergisi', rate: '0,759', note: 'Her maaş ödemesinde kesilen sabit oran' },
+  { name: 'Stopaj (serbest meslek)', rate: '20', note: 'Yalnızca serbest meslek erbabına uygulanır; gelir vergisinden mahsup edilir' },
+  { name: 'Kurumlar vergisi', rate: '25', note: 'Şirket net karı üzerinden (2025 itibarıyla)' },
+  { name: 'KDV', rate: '20', note: 'Müşteriden tahsil edilir; doğrudan kar üzerinden hesaplanmaz' },
+  { name: 'Geçici vergi', rate: '25', note: 'Kurumlar vergisinin üç aylık peşin ödemesi; ayrı bir vergi değildir' },
 ];
 
 // Rent-to-salary ratio (1BR city center, mid-level dev)
@@ -180,15 +181,15 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
       <p class="text-sm text-text-secondary mb-2 leading-relaxed">
         Aşağıdaki tablo, orta seviye bir yazılımcının brüt maaşından eline geçen
         net tutarı etkileyen toplam vergi yükünü ülkelere göre karşılaştırıyor.
-        Türkiye'de maaş bordrosundaki gelir vergisi, SGK ve damga vergisi kesintileri
-        toplamda %36 efektif oran oluşturuyor. Ancak stopaj dahil edildiğinde bu oran
-        %42'ye, kendi şirketini kuran bir yazılımcı için kurumlar vergisi, KDV,
-        geçici vergi ve SGK işveren payıyla birlikte %52'ye kadar çıkıyor.
+        Türkiye'de maaşlı bir çalışanın gelir vergisi, SGK işçi payı, işsizlik sigortası
+        ve damga vergisi kesintileri toplamda yaklaşık %39 efektif oran oluşturuyor.
+        Serbest meslek olarak (freelancer) çalışanlarda stopaj dahil edildiğinde bu oran
+        %42'ye çıkabiliyor. Kendi şirketini kuran yazılımcılar için ise kurumlar vergisi
+        ve SGK işveren payı dahil toplam yük %45 civarına ulaşabiliyor.
       </p>
       <p class="text-xs text-text-muted mb-6">
-        Bir Türk yazılımcı yıllık net $18.700 kazanırken aynı vergi dilimindeki
-        bir ABD'li yazılımcı $82.000 kazanıyor. Şirket sahibi olarak ise toplam
-        yük %52'ye ulaşıyor ve net tutar $12.800'a kadar düşüyor.
+        Orta seviye bir Türk yazılımcı (₺102.500 net/ay) yıllık net $33.200 kazanırken
+        aynı seviyedeki bir ABD'li yazılımcı $82.000 kazanıyor, yaklaşık 2,5 kat fark.
       </p>
 
       <div class="space-y-2">
@@ -322,9 +323,9 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
         eridiği</strong> anlamına geliyor.
       </p>
       <p class="text-sm text-text-body leading-relaxed mb-3">
-        Tabloya vergi yükü eklendiğinde durum daha da netleşiyor: %36'lık efektif
-        vergi oranıyla Türkiye, orta sıralarda yer alsa da net maaşın dolar
-        karşılığı ($18.700/yıl) karşılaştırılan ülkelerin en düşüğü.
+        Tabloya vergi yükü eklendiğinde durum daha da netleşiyor: yaklaşık %39'luk efektif
+        vergi oranıyla Türkiye orta sıralarda yer alsa da net maaşın dolar
+        karşılığı ($33.200/yıl) gelişmiş ülkelerin oldukça altında kalıyor.
       </p>
       <p class="text-sm text-text-body leading-relaxed">
         Kira/maaş oranında İstanbul %43 ile zirvede. Berlin'de (%19) ya da
