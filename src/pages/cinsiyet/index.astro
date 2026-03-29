@@ -1,0 +1,98 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Footer from '../../components/Footer.astro';
+import IznimvarBanner from '../../components/IznimvarBanner.astro';
+import '../../styles/global.css';
+---
+
+<Layout title="Cinsiyet Maaş Farkı — yazılımmaaş" active="cinsiyet" description="Türkiye yazılım sektöründe cinsiyet maaş farkı: %3.9 — sektörler arasında en düşük.">
+  <section class="max-w-[960px] mx-auto px-6 pt-16 pb-8">
+    <h1 class="text-3xl font-bold text-text tracking-tight mb-2">Yazılımda Cinsiyet Maaş Farkı</h1>
+    <p class="text-sm text-text-secondary leading-relaxed max-w-[600px] mb-10">
+      Yazılım sektörü, Türkiye'deki tüm sektörler arasında en düşük cinsiyet maaş farkına sahip.
+      Ancak kadın katılım oranı hâlâ düşük.
+    </p>
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-3 gap-4 mb-10">
+      <div class="bg-bg-white rounded-xl shadow-sm p-6 text-center">
+        <div class="text-4xl font-black text-accent font-mono mb-1">%3.9</div>
+        <div class="text-xs text-text-muted">Cinsiyet maaş farkı</div>
+        <div class="text-[10px] text-text-dim mt-1">Sektörler arası en düşük</div>
+      </div>
+      <div class="bg-bg-white rounded-xl shadow-sm p-6 text-center">
+        <div class="text-4xl font-black text-chart-2 font-mono mb-1">%17</div>
+        <div class="text-xs text-text-muted">Kadın katılım oranı</div>
+        <div class="text-[10px] text-text-dim mt-1">5.002 katılımcı içinde</div>
+      </div>
+      <div class="bg-bg-white rounded-xl shadow-sm p-6 text-center">
+        <div class="text-4xl font-black text-chart-3 font-mono mb-1">%10.1</div>
+        <div class="text-xs text-text-muted">Tüm sektörler ortalaması</div>
+        <div class="text-[10px] text-text-dim mt-1">Cambridge 2024 araştırması</div>
+      </div>
+    </div>
+
+    <!-- Salary comparison by level -->
+    <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
+      <h2 class="text-lg font-bold text-text mb-1">Seviye Bazında Karşılaştırma</h2>
+      <p class="text-sm text-text-secondary mb-6">Erkek vs kadın medyan aylık net TRY</p>
+
+      <div class="space-y-4">
+        {[
+          { level: 'Junior', male: 67000, female: 64500, gap: 3.7 },
+          { level: 'Mid', male: 105000, female: 101000, gap: 3.8 },
+          { level: 'Senior', male: 175000, female: 168000, gap: 4.0 },
+        ].map(row => (
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-sm font-medium text-text">{row.level}</span>
+              <span class="text-xs text-text-muted font-mono">Fark: %{row.gap}</span>
+            </div>
+            <div class="flex gap-2">
+              <div class="flex-1">
+                <div class="flex items-center justify-between text-[10px] text-text-muted mb-0.5">
+                  <span>Erkek</span>
+                  <span class="font-mono">₺{row.male.toLocaleString('tr-TR')}</span>
+                </div>
+                <div class="h-6 bg-bg-chart rounded overflow-hidden">
+                  <div class="h-full rounded bg-accent/60" style={`width: 100%`} />
+                </div>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between text-[10px] text-text-muted mb-0.5">
+                  <span>Kadın</span>
+                  <span class="font-mono">₺{row.female.toLocaleString('tr-TR')}</span>
+                </div>
+                <div class="h-6 bg-bg-chart rounded overflow-hidden">
+                  <div class="h-full rounded bg-chart-2/60" style={`width: ${(row.female / row.male) * 100}%`} />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="source-text mt-4">Kaynak: önceki yazılımcı 2026 anketi</p>
+    </div>
+
+    <!-- Academic sources -->
+    <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
+      <h2 class="text-lg font-bold text-text mb-4">Akademik Kaynaklar</h2>
+      <div class="space-y-3">
+        {[
+          { title: 'Gender Pay Gap in Turkey: A Comprehensive Analysis', source: 'Cambridge University Press, 2024', detail: '14 milyon bireyin 563 milyon satır veri analizi — Türkiye genel: %10.1 fark', url: 'https://doi.org/10.1017/S1474747224000088' },
+          { title: 'Labor Market Gender Gaps in Turkey', source: 'IMF Working Paper, 2024', detail: 'Kadın iş gücü katılım oranı: %35.7 (OECD ortalamasının altında)', url: 'https://www.imf.org/en/Publications/WP/Issues/2024/03/01/Labor-Market-Gender-Gaps-in-Turkey-545296' },
+          { title: 'OECD Economic Survey: Turkey 2025', source: 'OECD, 2025', detail: 'Cinsiyet eşitliğinde ilerleme kaydedildi ancak hâlâ yapısal engeller mevcut', url: 'https://www.oecd.org/en/publications/oecd-economic-surveys-turkey_10-en.html' },
+        ].map(src => (
+          <a href={src.url} target="_blank" rel="noopener noreferrer" class="block p-4 rounded-lg border border-border hover:border-accent/30 hover:bg-accent/3 transition group">
+            <div class="text-sm font-medium text-text group-hover:text-accent transition">{src.title}</div>
+            <div class="text-xs text-text-muted mt-0.5">{src.source}</div>
+            <div class="text-xs text-text-dim mt-1">{src.detail}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <IznimvarBanner />
+  <Footer />
+</Layout>

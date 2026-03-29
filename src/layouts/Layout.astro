@@ -1,9 +1,16 @@
 ---
+import Nav from '../components/Nav.astro';
+
 interface Props {
   title: string;
   description?: string;
+  active?: string;
 }
-const { title, description = 'Türkiye yazılım sektörü maaş raporu — 5.002 katılımcı, 37 pozisyon, 2018-2026 verileri' } = Astro.props;
+const {
+  title,
+  description = 'Türkiye yazılım sektörü maaş raporu — 5.002 katılımcı, 37 pozisyon, 2018-2026 verileri',
+  active = 'rapor',
+} = Astro.props;
 ---
 <!doctype html>
 <html lang="tr">
@@ -18,8 +25,10 @@ const { title, description = 'Türkiye yazılım sektörü maaş raporu — 5.00
     <title>{title}</title>
   </head>
   <body class="bg-bg min-h-screen">
-    <!-- Rule #18: Consistent brand mark — thin accent top bar -->
+    <!-- Rule #18: Brand mark — thin accent top bar -->
     <div class="h-[3px] bg-gradient-to-r from-accent via-chart-2 to-chart-3 w-full fixed top-0 z-50" />
+
+    <Nav active={active} />
 
     <slot />
   </body>

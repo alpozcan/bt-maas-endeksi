@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Footer from '../../components/Footer.astro';
+import IznimvarBanner from '../../components/IznimvarBanner.astro';
+import '../../styles/global.css';
+import SalaryScatter from '../../components/SalaryScatter';
+---
+
+<Layout title="Deneyim ve Maaş Dağılımı — yazılımmaaş" active="dagilim" description="5.002 yazılımcının deneyim-maaş dağılımını keşfet. Şehir bazında filtreleme.">
+  <section class="max-w-[960px] mx-auto px-6 pt-16 pb-8">
+    <h1 class="text-3xl font-bold text-text tracking-tight mb-2">Deneyim ve Maaş Dağılımı</h1>
+    <p class="text-sm text-text-secondary leading-relaxed max-w-[600px] mb-8">
+      5.002 yazılımcının deneyim-maaş ilişkisi. Her nokta bir geliştirici — şehir bazında
+      filtrele, kendi konumunu bul.
+    </p>
+
+    <div class="bg-bg-white rounded-xl shadow-sm p-6">
+      <SalaryScatter client:load />
+    </div>
+  </section>
+
+  <IznimvarBanner />
+  <Footer />
+</Layout>

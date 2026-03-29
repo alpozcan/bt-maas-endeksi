@@ -1,0 +1,44 @@
+---
+interface Props {
+  active?: string;
+}
+const { active = 'rapor' } = Astro.props;
+
+const links = [
+  { href: '/', label: 'Rapor', id: 'rapor' },
+  { href: '/hesapla/', label: 'Maaşını Hesapla', id: 'hesapla' },
+  { href: '/dagilim/', label: 'Dağılım', id: 'dagilim' },
+  { href: '/cinsiyet/', label: 'Cinsiyet Farkı', id: 'cinsiyet' },
+  { href: '/enflasyon/', label: 'Enflasyon', id: 'enflasyon' },
+];
+---
+
+<nav class="sticky top-[3px] z-40 bg-bg/90 backdrop-blur-md border-b border-border" aria-label="Ana navigasyon">
+  <div class="max-w-[960px] mx-auto px-6 flex items-center justify-between gap-3 h-12">
+    <a href="/" class="shrink-0 text-sm font-bold text-text tracking-tight hover:opacity-80 transition">
+      yazılımmaaş
+    </a>
+
+    <div class="flex items-center gap-1 overflow-x-auto hide-scrollbar">
+      {links.map(link => (
+        <a
+          href={link.href}
+          class:list={[
+            'shrink-0 rounded-full px-3 py-1 text-xs font-medium transition-all duration-200',
+            active === link.id
+              ? 'bg-accent/12 text-accent border border-accent/25'
+              : 'text-text-muted hover:text-text hover:bg-bg-hover border border-transparent',
+          ]}
+          aria-current={active === link.id ? 'page' : undefined}
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<style>
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>

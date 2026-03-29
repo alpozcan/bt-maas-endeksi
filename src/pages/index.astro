@@ -1,20 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import Dashboard from '../components/Dashboard';
 ---
 
-<Layout title="yazılımmaaş — 2026 Türkiye Yazılım Sektörü Maaş Raporu">
-  <!-- All charts in a single React island for shared highlight state -->
+<Layout title="yazılımmaaş — 2026 Türkiye Yazılım Sektörü Maaş Raporu" active="rapor">
   <Dashboard client:load />
-
-  <!-- Footer — Rule #4: minimal, deemphasized -->
-  <footer class="max-w-[960px] mx-auto px-6 py-16 border-t border-border mt-8">
-    <p class="text-sm font-semibold text-text mb-2">yazılımmaaş</p>
-    <p class="text-xs text-text-muted leading-relaxed">
-      Veri: önceki yazılımcı 2026 anketi · 5.002 katılımcı · 37 pozisyon<br />
-      Tüm veriler anonim anket sonuçlarına dayanmaktadır. Açık kaynak.<br />
-      <span class="text-text-dim">Not: Maaş verileri katılımcıların beyanına dayalıdır ve istatistiksel örnekleme sınırlılıkları içerebilir.</span>
-    </p>
-  </footer>
+  <Footer />
 </Layout>

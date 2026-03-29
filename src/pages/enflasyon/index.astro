@@ -1,0 +1,132 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Footer from '../../components/Footer.astro';
+import IznimvarBanner from '../../components/IznimvarBanner.astro';
+import '../../styles/global.css';
+
+// Inflation data (ENAG independent vs TUIK official)
+const years = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+const enagCumulative = [1, 1.35, 1.85, 3.2, 10.8, 22.5, 38.4, 59.6]; // multipliers since 2018
+const tuikCumulative = [1, 1.12, 1.27, 1.63, 3.81, 6.48, 10.1, 14.2];
+
+// What a junior's salary SHOULD be if it kept up with ENAG inflation
+const junior2018 = 3000; // TRY monthly net
+const nominalJunior = [3000, 3500, 4500, 5500, 8500, 17500, 34500, 49500];
+const enagAdjusted = enagCumulative.map(m => Math.round(junior2018 * m));
+
+// Purchasing power: how much can you buy
+const purchasingPowerLoss = Math.round((1 - nominalJunior[7] / enagAdjusted[7]) * 100);
+---
+
+<Layout title="Enflasyon ve Satın Alma Gücü — yazılımmaaş" active="enflasyon" description="Yazılımcı maaşları enflasyona yetişebildi mi? ENAG vs TUIK karşılaştırması ve satın alma gücü analizi.">
+  <section class="max-w-[960px] mx-auto px-6 pt-16 pb-8">
+    <h1 class="text-3xl font-bold text-text tracking-tight mb-2">Yazılımcı Maaşları ve Enflasyon</h1>
+    <p class="text-sm text-text-secondary leading-relaxed max-w-[600px] mb-10">
+      2018'den bu yana yazılımcı maaşları nominal olarak 16 kat arttı — ama bağımsız
+      enflasyon verileri (ENAG) farklı bir tablo çiziyor.
+    </p>
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+      <div class="bg-bg-white rounded-xl shadow-sm p-5 text-center">
+        <div class="text-3xl font-black text-chart-4 font-mono mb-1">%{purchasingPowerLoss}</div>
+        <div class="text-xs text-text-muted">Satın alma gücü kaybı</div>
+        <div class="text-[10px] text-text-dim mt-0.5">ENAG'a göre, 2018'den bu yana</div>
+      </div>
+      <div class="bg-bg-white rounded-xl shadow-sm p-5 text-center">
+        <div class="text-3xl font-black text-accent font-mono mb-1">16x</div>
+        <div class="text-xs text-text-muted">Nominal maaş artışı</div>
+        <div class="text-[10px] text-text-dim mt-0.5">Junior: ₺3K → ₺49.5K</div>
+      </div>
+      <div class="bg-bg-white rounded-xl shadow-sm p-5 text-center">
+        <div class="text-3xl font-black text-chart-3 font-mono mb-1">59.6x</div>
+        <div class="text-xs text-text-muted">ENAG kümülatif enflasyon</div>
+        <div class="text-[10px] text-text-dim mt-0.5">2018 → 2025 (%5.864)</div>
+      </div>
+      <div class="bg-bg-white rounded-xl shadow-sm p-5 text-center">
+        <div class="text-3xl font-black text-text font-mono mb-1">%43</div>
+        <div class="text-xs text-text-muted">Kira/maaş oranı</div>
+        <div class="text-[10px] text-text-dim mt-0.5">İstanbul 1+1, mid-level</div>
+      </div>
+    </div>
+
+    <!-- What your salary SHOULD be -->
+    <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
+      <h2 class="text-lg font-bold text-text mb-1">Maaşın Ne Olmalıydı?</h2>
+      <p class="text-sm text-text-secondary mb-6">
+        2018 Junior maaşı (₺3.000) ENAG enflasyonuna göre güncellenseydi
+      </p>
+
+      <div class="space-y-3">
+        {years.map((year, i) => {
+          const nominal = nominalJunior[i];
+          const shouldBe = enagAdjusted[i];
+          const gap = shouldBe - nominal;
+          const pctOfTarget = Math.min(100, (nominal / shouldBe) * 100);
+          return (
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-text-dim w-10">{year}</span>
+              <div class="flex-1">
+                <div class="flex items-center justify-between text-[10px] text-text-muted mb-0.5">
+                  <span>Gerçek: ₺{nominal.toLocaleString('tr-TR')}</span>
+                  <span>Olması gereken: ₺{shouldBe.toLocaleString('tr-TR')}</span>
+                </div>
+                <div class="h-5 bg-bg-chart rounded relative overflow-hidden">
+                  <div class="h-full rounded bg-chart-4/30 absolute inset-0" />
+                  <div class="h-full rounded bg-accent/70 relative" style={`width: ${pctOfTarget.toFixed(0)}%`} />
+                </div>
+              </div>
+              {gap > 0 && (
+                <span class="font-mono text-xs text-chart-4 w-20 text-right">
+                  -₺{Math.round(gap / 1000)}K
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <p class="source-text mt-4">
+        ENAG: Enflasyon Araştırma Grubu (bağımsız) · TÜİK: Türkiye İstatistik Kurumu (resmi)
+      </p>
+    </div>
+
+    <!-- ENAG vs TUIK comparison -->
+    <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
+      <h2 class="text-lg font-bold text-text mb-1">ENAG vs TÜİK: Kümülatif Enflasyon</h2>
+      <p class="text-sm text-text-secondary mb-6">2018 = 1x baz (kümülatif çarpan)</p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-border">
+              <th class="text-left py-2 text-xs text-text-muted font-medium">Yıl</th>
+              <th class="text-right py-2 text-xs text-text-muted font-medium">ENAG (x)</th>
+              <th class="text-right py-2 text-xs text-text-muted font-medium">TÜİK (x)</th>
+              <th class="text-right py-2 text-xs text-text-muted font-medium">Fark</th>
+            </tr>
+          </thead>
+          <tbody>
+            {years.map((year, i) => (
+              <tr class="border-b border-border/50">
+                <td class="py-2 font-mono text-xs text-text">{year}</td>
+                <td class="py-2 font-mono text-xs text-chart-4 text-right">{enagCumulative[i]}x</td>
+                <td class="py-2 font-mono text-xs text-text-secondary text-right">{tuikCumulative[i]}x</td>
+                <td class="py-2 font-mono text-xs text-text-dim text-right">
+                  {(enagCumulative[i] / tuikCumulative[i]).toFixed(1)}x
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="source-text mt-4">
+        Kaynak: ENAG (enagrup.org), TÜİK (tuik.gov.tr) · Numbeo yaşam maliyeti verileri
+      </p>
+    </div>
+  </section>
+
+  <IznimvarBanner />
+  <Footer />
+</Layout>
