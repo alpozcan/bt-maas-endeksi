@@ -75,7 +75,8 @@ export default function RoleRadar() {
             />
           </div>
           <p className="source-text mt-2">
-            Kaynak: önceki yazılımcı 2026,{' '}
+            Kaynak:{' '}
+            <a href="https://github.com/nicatdursunlu/onceki-yazilimci-2026-anket-sonuclari" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">önceki yazılımcı 2026</a>,{' '}
             <a href={LEVELS_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Levels.fyi</a>,{' '}
             <a href={GLASSDOOR_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Glassdoor</a>
             {' '}- yıllık brüt ($K)

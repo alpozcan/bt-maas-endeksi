@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 }
 const {
   title,
-  description = 'Türkiye yazılım sektörü maaş raporu - 5.002 katılımcı, 37 pozisyon, 2018-2026 verileri',
+  description = 'BT Maaş Endeksi - Türkiye yazılım sektörü maaş raporu, 5.002 katılımcı, 37 pozisyon, 2018-2026 verileri',
   active = 'rapor',
 } = Astro.props;
 ---
@@ -23,13 +24,35 @@ const {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body class="bg-bg min-h-screen">
-    <!-- Rule #18: Brand mark - thin accent top bar -->
-    <div class="h-[3px] bg-gradient-to-r from-accent via-chart-2 to-chart-3 w-full fixed top-0 z-50" />
+    <!-- Brand mark - thin accent top bar -->
+    <div class="h-[3px] bg-gradient-to-r from-accent via-chart-2 to-chart-3 w-full fixed top-0 z-50" transition:persist />
 
     <Nav active={active} />
 
-    <slot />
+    <main transition:animate="fade">
+      <slot />
+    </main>
   </body>
 </html>
+
+<style is:global>
+  /* Custom view transition animations */
+  @keyframes page-fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes page-fade-out {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-8px); }
+  }
+
+  ::view-transition-old(root) {
+    animation: page-fade-out 0.2s ease-in forwards;
+  }
+  ::view-transition-new(root) {
+    animation: page-fade-in 0.3s ease-out forwards;
+  }
+</style>

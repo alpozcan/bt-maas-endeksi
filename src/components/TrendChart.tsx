@@ -73,10 +73,10 @@ export default function TrendChart() {
               theme={theme}
               margin={{ top: 20, right: 100, bottom: 44, left: 60 }}
               xScale={{ type: 'point' }}
-              yScale={{ type: 'linear', min: 0, max: 200000 }}
+              yScale={{ type: 'symlog', min: 1000, max: 200000, constant: 5000 }}
               curve="monotoneX"
               colors={(d: { color?: string }) => d.color ?? '#6366f1'}
-              lineWidth={(d: { id: string }) => d.id === 'Asgari Ücret' ? 1.5 : 2.5}
+              lineWidth={2.5}
               enablePoints
               pointSize={6}
               pointColor="#FFFFFF"
@@ -85,10 +85,26 @@ export default function TrendChart() {
               enableArea={false}
               useMesh
               enableSlices="x"
+              sliceTooltip={({ slice }: { slice: { points: { serieId: string; serieColor: string; data: { yFormatted: string; y: number } }[] } }) => (
+                <div style={{
+                  background: '#fff', border: '1px solid #E5E5E5', borderRadius: '8px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.08)', padding: '8px 12px', fontSize: '12px',
+                }}>
+                  {slice.points.map(p => (
+                    <div key={p.serieId} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '2px 0' }}>
+                      <span style={{ width: 10, height: 10, borderRadius: '50%', background: p.serieColor, display: 'inline-block' }} />
+                      <span style={{ color: '#666', width: 90 }}>{p.serieId}</span>
+                      <span style={{ fontWeight: 600, fontFamily: 'JetBrains Mono', color: '#333' }}>
+                        ₺{Number(p.data.y).toLocaleString('tr-TR')}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
               axisLeft={{
                 tickSize: 0,
                 tickPadding: 8,
-                tickValues: [0, 50000, 100000, 150000, 200000],
+                tickValues: [2000, 5000, 10000, 25000, 50000, 100000, 200000],
                 format: (v: number) => `₺${(v / 1000).toFixed(0)}K`,
               }}
               axisBottom={{
@@ -96,7 +112,7 @@ export default function TrendChart() {
                 tickPadding: 12,
               }}
               enableGridX={false}
-              gridYValues={[0, 50000, 100000, 150000, 200000]}
+              gridYValues={[2000, 5000, 10000, 25000, 50000, 100000, 200000]}
               legends={[]}
               layers={[
                 'grid', 'markers', 'axes', 'areas', 'crosshair', 'lines', 'points', 'slices', 'mesh', 'legends',

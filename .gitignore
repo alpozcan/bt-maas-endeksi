@@ -1,6 +1,5 @@
 # build output
 dist/
-# generated types
 .astro/
 
 # dependencies
@@ -12,13 +11,31 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
 # environment variables
 .env
 .env.production
 
-# macOS-specific files
+# macOS
 .DS_Store
 
-# jetbrains setting folder
+# IDE
 .idea/
+.vscode/
+
+# DSE experiment artifacts (large screenshots, temp outputs)
+dse_results/screenshots/
+dse_results/outputs/
+dse_results/configs/
+
+# Playwright test artifacts
+test-results/
+screenshots/
+
+# HTML mockups (prototypes, not production)
+mockups/
+
+# Internal docs and experiment artifacts
+INSTRUCTIONS.md
+RESEARCH_BRIEF.md
+dse_results/
+docs/experiment-log.md

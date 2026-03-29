@@ -38,15 +38,15 @@ const eduGaps = [
 ];
 ---
 
-<Layout title="Cinsiyet Maaş Farkı - yazılımmaaş" active="cinsiyet" description="Türkiye yazılım sektöründe cinsiyet maaş farkı: %3.9 - sektörler arasında en düşük. Ancak kadın katılım oranı yalnızca %17.">
+<Layout title="Cinsiyet Maaş Farkı - BT Maaş Endeksi" active="cinsiyet" description="Türkiye yazılım sektöründe cinsiyet maaş farkı: %3.9 - sektörler arasında en düşük. Ancak kadın katılım oranı yalnızca %17.">
   <section class="max-w-[960px] mx-auto px-6 pt-16 pb-4">
     <h1 class="text-3xl font-bold text-text tracking-tight mb-2">Yazılımda Cinsiyet Maaş Farkı</h1>
-    <p class="text-base text-text-secondary leading-relaxed max-w-[700px] mb-4">
+    <p class="text-base text-text-secondary leading-relaxed mb-4">
       Yazılım sektörü %3,9 ile Türkiye'deki tüm sektörler arasında en düşük cinsiyet maaş
       farkına sahip. Ancak bu olumlu tablo, düşük kadın katılım oranıyla birlikte
       değerlendirilmeli: ankete katılan 5.002 yazılımcının yalnızca %17'si kadın.
     </p>
-    <p class="text-sm text-text-muted leading-relaxed max-w-[700px] mb-10">
+    <p class="text-sm text-text-muted leading-relaxed mb-10">
       Türkiye genelinde kadın işgücüne katılım oranı %36,3 ile OECD ortalamasının (%53)
       çok altında. Yazılım sektöründeki düşük fark, kısmen seçilim etkisinden
       kaynaklanıyor olabilir: sektörde kalmayı başaran kadınlar genellikle yüksek
@@ -123,7 +123,10 @@ const eduGaps = [
           </div>
         ))}
       </div>
-      <p class="source-text mt-4">Kaynak: önceki yazılımcı 2026 anketi</p>
+      <p class="source-text mt-4">
+        Kaynak:
+        <a href="https://github.com/nicatdursunlu/onceki-yazilimci-2026-anket-sonuclari" target="_blank" rel="noopener" class="text-accent hover:underline">önceki yazılımcı 2026 anketi</a>
+      </p>
     </div>
 
     <!-- Sector comparison -->
@@ -155,7 +158,10 @@ const eduGaps = [
       </div>
 
       <p class="source-text mt-4">
-        Kaynak: TÜİK Kazanç Yapısı Araştırması 2023, oncekiyazilimci 2026, ILO/TURKSTAT, TMMOB, TBB
+        Kaynak:
+        <a href="https://data.tuik.gov.tr/Bulten/Index?p=Kazanc-Yapisi-Arastirmasi-2022-49531" target="_blank" rel="noopener" class="text-accent hover:underline">TÜİK Kazanç Yapısı Araştırması 2023</a>,
+        <a href="https://github.com/nicatdursunlu/onceki-yazilimci-2026-anket-sonuclari" target="_blank" rel="noopener" class="text-accent hover:underline">önceki yazılımcı 2026</a>,
+        <a href="https://ilostat.ilo.org/topics/wages/" target="_blank" rel="noopener" class="text-accent hover:underline">ILO/TURKSTAT</a>
       </p>
     </div>
 
@@ -166,7 +172,7 @@ const eduGaps = [
         Türkiye genelinde cinsiyet maaş farkı, yaşla birlikte dramatik şekilde artıyor.
       </p>
       <p class="text-xs text-text-muted mb-6">
-        20–24 yaş grubunda fark yalnızca %3,8 iken 40–44 yaş grubunda %25,9'a fırlıyor.
+        20-24 yaş grubunda fark yalnızca %3,8 iken 40-44 yaş grubunda %25,9'a fırlıyor.
         Bu durum, kadınların kariyer ilerlemesinde karşılaştığı yapısal engellerin -
         çocuk bakımı yükü, cam tavan etkisi - zamanla biriktiğini gösteriyor.
       </p>
@@ -184,7 +190,9 @@ const eduGaps = [
       </div>
 
       <p class="source-text mt-4">
-        Kaynak: Cambridge University Press 2024 · 14 milyon bireyin veri analizi · Türkiye geneli
+        Kaynak:
+        <a href="https://doi.org/10.1017/S1474747224000088" target="_blank" rel="noopener" class="text-accent hover:underline">Cambridge University Press 2024</a>
+        - 14 milyon bireyin veri analizi, Türkiye geneli
       </p>
     </div>
 
@@ -215,7 +223,9 @@ const eduGaps = [
       </div>
 
       <p class="source-text mt-4">
-        Kaynak: ILO/TURKSTAT Kazanç Yapısı Araştırması · TÜİK 2023
+        Kaynak:
+        <a href="https://ilostat.ilo.org/topics/wages/" target="_blank" rel="noopener" class="text-accent hover:underline">ILO/TURKSTAT Kazanç Yapısı Araştırması</a>,
+        <a href="https://data.tuik.gov.tr/Bulten/Index?p=Kazanc-Yapisi-Arastirmasi-2022-49531" target="_blank" rel="noopener" class="text-accent hover:underline">TÜİK 2023</a>
       </p>
     </div>
 

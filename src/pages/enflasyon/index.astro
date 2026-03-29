@@ -17,33 +17,55 @@ const inflationData = [
 ];
 
 // Cumulative multipliers since 2018
-const years = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
-const enagCumulative = [1, 1.35, 1.85, 3.2, 10.8, 22.5, 38.4, 59.6];
-const tuikCumulative = [1, 1.12, 1.27, 1.63, 3.81, 6.48, 10.1, 14.2];
+const years = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+const enagCumulative = [1, 1.35, 1.85, 3.2, 10.8, 22.5, 38.4, 59.6, 78.5];
+const tuikCumulative = [1, 1.12, 1.27, 1.63, 3.81, 6.48, 10.1, 14.2, 18.6];
 
 // Junior salary: nominal vs ENAG-adjusted
 const junior2018 = 3000;
-const nominalJunior = [3000, 3500, 4500, 5500, 8500, 17500, 34500, 49500];
+const nominalJunior = [3000, 3500, 4500, 5500, 8500, 17500, 34500, 49500, 65500];
 const enagAdjusted = enagCumulative.map(m => Math.round(junior2018 * m));
-const purchasingPowerLoss = Math.round((1 - nominalJunior[7] / enagAdjusted[7]) * 100);
+const purchasingPowerLoss = Math.round((1 - nominalJunior[8] / enagAdjusted[8]) * 100);
 
-// Mid-level salary: nominal vs ENAG-adjusted
-const mid2018 = 4500;
-const nominalMid = [4500, 5500, 6500, 8500, 13500, 26500, 50500, 74500];
-const midEnagAdjusted = enagCumulative.map(m => Math.round(mid2018 * m));
+// Mid-level salary for tantuni calculation
+const nominalMid = [4500, 5500, 6500, 8500, 13500, 26500, 50500, 74500, 102500];
 
-// Tax rates by country (mid-level developer, employee-side total burden)
+// Tantuni Index (Istanbul, et tantuni dürüm average price)
+const tantuniPrices = [10, 12, 15, 22, 45, 90, 150, 200, 250]; // TRY
+const tantuniPerSalary = nominalMid.map((sal, i) => ({
+  year: years[i],
+  count: Math.round(sal / tantuniPrices[i]),
+  price: tantuniPrices[i],
+  salary: sal,
+}));
+
+// Tax rates by country (mid-level developer, employee-side + Turkey breakdown)
 const taxData = [
-  { country: 'Estonya', flag: '🇪🇪', rate: 24, netUSD: 56000, gross: '€67K' },
-  { country: 'İsviçre', flag: '🇨🇭', rate: 24, netUSD: 106000, gross: 'CHF 124K' },
-  { country: 'İngiltere', flag: '🇬🇧', rate: 30, netUSD: 96000, gross: '£85K' },
-  { country: 'ABD', flag: '🇺🇸', rate: 32, netUSD: 82000, gross: '$120K' },
-  { country: 'İspanya', flag: '🇪🇸', rate: 32, netUSD: 37000, gross: '€50K' },
-  { country: 'Japonya', flag: '🇯🇵', rate: 32, netUSD: 39000, gross: '¥8.5M' },
-  { country: 'Türkiye', flag: '🇹🇷', rate: 36, netUSD: 18700, gross: '₺900K/yıl' },
-  { country: 'Hollanda', flag: '🇳🇱', rate: 38, netUSD: 61000, gross: '€90K' },
-  { country: 'Almanya', flag: '🇩🇪', rate: 40, netUSD: 54000, gross: '€82K' },
-  { country: 'Danimarka', flag: '🇩🇰', rate: 40, netUSD: 60000, gross: 'DKK 685K' },
+  { country: 'Estonya', flag: '🇪🇪', rate: 24, netUSD: 56000 },
+  { country: 'İsviçre', flag: '🇨🇭', rate: 24, netUSD: 106000 },
+  { country: 'İngiltere', flag: '🇬🇧', rate: 30, netUSD: 96000 },
+  { country: 'ABD', flag: '🇺🇸', rate: 32, netUSD: 82000 },
+  { country: 'İspanya', flag: '🇪🇸', rate: 32, netUSD: 37000 },
+  { country: 'Japonya', flag: '🇯🇵', rate: 32, netUSD: 39000 },
+  { country: 'Türkiye (çalışan)', flag: '🇹🇷', rate: 36, netUSD: 18700, highlight: true },
+  { country: 'Hollanda', flag: '🇳🇱', rate: 38, netUSD: 61000 },
+  { country: 'Almanya', flag: '🇩🇪', rate: 40, netUSD: 54000 },
+  { country: 'Danimarka', flag: '🇩🇰', rate: 40, netUSD: 60000 },
+  { country: 'TR stopaj + SGK + damga', flag: '🇹🇷', rate: 42, netUSD: 16500, highlight: true },
+  { country: 'TR şirket sahibi (toplam)', flag: '🇹🇷', rate: 52, netUSD: 12800, highlight: true },
+];
+
+// Turkey hidden tax breakdown for detail section
+const turkeyTaxBreakdown = [
+  { name: 'Gelir vergisi (GV)', rate: '15-40', note: 'Artan oranlı, ₺110K üzeri %40' },
+  { name: 'SGK işçi payı', rate: '14', note: 'Brüt maaş üzerinden' },
+  { name: 'SGK işveren payı', rate: '20.5', note: 'İşveren tarafı, çalışana yansımaz ama maliyeti artırır' },
+  { name: 'İşsizlik sigortası', rate: '1', note: 'İşçi payı' },
+  { name: 'Damga vergisi', rate: '0.759', note: 'Her maaş ödemesinde kesilen sabit oran' },
+  { name: 'Stopaj (kaynakta kesinti)', rate: '20', note: 'Serbest meslek / fatura kesenlerde' },
+  { name: 'Kurumlar vergisi', rate: '25', note: 'Şirket karı üzerinden (2024 itibarıyla)' },
+  { name: 'KDV', rate: '20', note: 'Hizmet faturalarında, şirket sahibi olarak yansır' },
+  { name: 'Geçici vergi', rate: '25', note: 'Kurumlar vergisinin üç aylık peşin ödemesi' },
 ];
 
 // Rent-to-salary ratio (1BR city center, mid-level dev)
@@ -63,16 +85,16 @@ const sortedRent = [...rentData].sort((a, b) => b.ratio - a.ratio);
 const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
 ---
 
-<Layout title="Enflasyon ve Satın Alma Gücü - yazılımmaaş" active="enflasyon" description="Yazılımcı maaşları enflasyona yetişebildi mi? ENAG vs TUIK, vergi yükü, kira/maaş oranı ve satın alma gücü analizi.">
+<Layout title="Enflasyon ve Satın Alma Gücü - BT Maaş Endeksi" active="enflasyon" description="Yazılımcı maaşları enflasyona yetişebildi mi? ENAG vs TUIK, vergi yükü, kira/maaş oranı ve satın alma gücü analizi.">
   <section class="max-w-[960px] mx-auto px-6 pt-16 pb-4">
     <h1 class="text-3xl font-bold text-text tracking-tight mb-2">Yazılımcı Maaşları ve Enflasyon</h1>
-    <p class="text-base text-text-secondary leading-relaxed max-w-[700px] mb-4">
+    <p class="text-base text-text-secondary leading-relaxed mb-4">
       2018'den bu yana yazılımcı maaşları nominal olarak 16 kat arttı. Ancak bağımsız
       enflasyon verileri (ENAG) farklı bir tablo çiziyor: aynı dönemde fiyatlar
       yaklaşık 60 kat yükseldi. Bir başka deyişle, maaş zammı yalnızca enflasyonun
       dörtte birini karşılayabildi.
     </p>
-    <p class="text-sm text-text-muted leading-relaxed max-w-[700px] mb-10">
+    <p class="text-sm text-text-muted leading-relaxed mb-10">
       Bu sayfa, resmi (TÜİK) ve bağımsız (ENAG) enflasyon verilerini karşılaştırarak
       yazılımcının gerçek satın alma gücündeki erimenin boyutunu ortaya koyuyor.
       Vergi yükü ve kira oranlarıyla birlikte değerlendirildiğinde, nominal maaş
@@ -105,89 +127,122 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
       </div>
     </div>
 
-    <!-- EDITORIAL: What your salary SHOULD be -->
+    <!-- TANTUNI INDEX -->
     <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
-      <h2 class="text-xl font-bold text-text mb-1">Maaşın Gerçekte Ne Olmalıydı?</h2>
-      <p class="text-sm text-text-secondary mb-2 leading-relaxed max-w-[700px]">
-        Aşağıdaki grafik, 2018 yılındaki bir junior yazılımcının ₺3.000'lik maaşının
-        ENAG enflasyonuyla güncellenmesi durumunda bugün ne olması gerektiğini gösteriyor.
-        Mavi çubuk gerçek maaşı, kırmızı arka plan olması gereken düzeyi temsil ediyor.
+      <h2 class="text-xl font-bold text-text mb-1">Tantuni Endeksi</h2>
+      <p class="text-sm text-text-secondary mb-2 leading-relaxed">
+        Bir yazılımcının aylık maaşıyla kaç tantuni alabildiği, enflasyonun günlük hayata etkisini
+        somut şekilde ortaya koyuyor. 2018'de orta seviye bir yazılımcı maaşıyla 450 tantuni
+        alabilirken bugün bu rakam 372'ye düştü. Tantuninin fiyatı 8 yılda 20 kat artarken
+        maaşlar yalnızca 16 kat arttı.
       </p>
-      <p class="text-xs text-text-muted mb-6 leading-relaxed max-w-[700px]">
-        2025 itibarıyla aradaki fark ₺{Math.round((enagAdjusted[7] - nominalJunior[7]) / 1000)}K'ye ulaştı -
-        yani bir junior yazılımcının maaşı, enflasyona ayak uydurabilmek için yaklaşık
-        ₺{Math.round(enagAdjusted[7] / 1000)}K olmalıydı.
+      <p class="text-xs text-text-muted mb-6">
+        İstanbul ortalama et tantuni dürüm fiyatı baz alınmıştır.
       </p>
 
-      <div class="space-y-3">
-        {years.map((year, i) => {
-          const nominal = nominalJunior[i];
-          const shouldBe = enagAdjusted[i];
-          const gap = shouldBe - nominal;
-          const pctOfTarget = Math.min(100, (nominal / shouldBe) * 100);
+      <div class="space-y-2.5">
+        {tantuniPerSalary.map((row, i) => {
+          const maxCount = Math.max(...tantuniPerSalary.map(r => r.count));
+          const pct = (row.count / maxCount) * 100;
+          const isFirst = i === 0;
+          const isLast = i === tantuniPerSalary.length - 1;
           return (
             <div class="flex items-center gap-3">
-              <span class="font-mono text-xs text-text-dim w-10">{year}</span>
-              <div class="flex-1">
-                <div class="flex items-center justify-between text-[10px] text-text-muted mb-0.5">
-                  <span>Gerçek: ₺{nominal.toLocaleString('tr-TR')}</span>
-                  <span>Olması gereken: ₺{shouldBe.toLocaleString('tr-TR')}</span>
-                </div>
-                <div class="h-5 bg-bg-chart rounded relative overflow-hidden">
-                  <div class="h-full rounded bg-chart-4/25 absolute inset-0" />
-                  <div class="h-full rounded bg-accent/70 relative" style={`width: ${pctOfTarget.toFixed(0)}%`} />
-                </div>
-              </div>
-              {gap > 0 && (
-                <span class="font-mono text-xs text-chart-4 w-24 text-right">
-                  -₺{Math.round(gap / 1000)}K fark
+              <span class="font-mono text-xs text-text-dim w-10">{row.year}</span>
+              <div class="flex-1 h-7 bg-bg-chart rounded relative overflow-hidden">
+                <div
+                  class={`h-full rounded transition-all duration-500 ${isFirst ? 'bg-chart-2/70' : isLast ? 'bg-chart-4/60' : 'bg-accent/40'}`}
+                  style={`width: ${pct}%`}
+                />
+                <span class="absolute right-2 top-1/2 -translate-y-1/2 font-mono text-xs font-semibold text-text-secondary">
+                  {row.count} tantuni
                 </span>
-              )}
+              </div>
+              <span class="font-mono text-[10px] text-text-dim w-28 text-right">
+                ₺{row.price} / tantuni, ₺{(row.salary / 1000).toFixed(0)}K maaş
+              </span>
             </div>
           );
         })}
       </div>
 
       <p class="source-text mt-4">
-        ENAG: Enflasyon Araştırma Grubu (bağımsız) ·
-        <a href="https://enagrup.org" target="_blank" rel="noopener" class="text-accent hover:underline">enagrup.org</a>
+        Kaynak:
+        <a href="https://www.economist.com/big-mac-index" target="_blank" rel="noopener" class="text-accent hover:underline">The Economist Big Mac Index</a>,
+        <a href="https://github.com/nicatdursunlu/onceki-yazilimci-2026-anket-sonuclari" target="_blank" rel="noopener" class="text-accent hover:underline">önceki yazılımcı</a>,
+        fastfoodfiyatlari.com
       </p>
     </div>
 
-    <!-- ENAG vs TUIK table -->
+    <!-- TAX RATES -->
     <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
-      <h2 class="text-xl font-bold text-text mb-1">ENAG vs TÜİK: Yıllık Enflasyon Oranları</h2>
-      <p class="text-sm text-text-secondary mb-2 leading-relaxed max-w-[700px]">
-        ENAG, 2020 yılında kurulmuş bağımsız bir enflasyon ölçüm grubudur. Aşağıdaki
-        tablo, resmi TÜİK rakamlarının bağımsız ölçümlerden ne kadar ayrıştığını gösteriyor.
+      <h2 class="text-xl font-bold text-text mb-1">Ülkelere Göre Efektif Vergi Yükü</h2>
+      <p class="text-sm text-text-secondary mb-2 leading-relaxed">
+        Aşağıdaki tablo, orta seviye bir yazılımcının brüt maaşından eline geçen
+        net tutarı etkileyen toplam vergi yükünü ülkelere göre karşılaştırıyor.
+        Türkiye'de maaş bordrosundaki gelir vergisi, SGK ve damga vergisi kesintileri
+        toplamda %36 efektif oran oluşturuyor. Ancak stopaj dahil edildiğinde bu oran
+        %42'ye, kendi şirketini kuran bir yazılımcı için kurumlar vergisi, KDV,
+        geçici vergi ve SGK işveren payıyla birlikte %52'ye kadar çıkıyor.
       </p>
       <p class="text-xs text-text-muted mb-6">
-        2022'de fark en yüksek seviyesine ulaştı: TÜİK %72 derken ENAG %138 açıkladı.
+        Bir Türk yazılımcı yıllık net $18.700 kazanırken aynı vergi dilimindeki
+        bir ABD'li yazılımcı $82.000 kazanıyor. Şirket sahibi olarak ise toplam
+        yük %52'ye ulaşıyor ve net tutar $12.800'a kadar düşüyor.
+      </p>
+
+      <div class="space-y-2">
+        {[...taxData].sort((a, b) => a.rate - b.rate).map(row => {
+          const isHighlight = row.highlight;
+          return (
+            <div class={`flex items-center gap-3 py-1.5 ${isHighlight ? 'bg-chart-4/5 -mx-2 px-2 rounded-lg' : ''}`}>
+              <span class="text-sm w-5">{row.flag}</span>
+              <span class={`text-sm w-48 shrink-0 ${isHighlight ? 'font-semibold text-text' : 'text-text-body'}`}>{row.country}</span>
+              <div class="flex-1 h-5 bg-bg-chart rounded overflow-hidden">
+                <div
+                  class={`h-full rounded ${isHighlight ? 'bg-chart-4/60' : 'bg-accent/40'}`}
+                  style={`width: ${(row.rate / 58) * 100}%`}
+                />
+              </div>
+              <span class={`font-mono text-xs w-10 text-right ${isHighlight ? 'text-chart-4 font-bold' : 'text-text-muted'}`}>
+                %{row.rate}
+              </span>
+              <span class="font-mono text-xs text-text-dim w-24 text-right">${row.netUSD.toLocaleString('en-US')}/yıl</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- TURKEY TAX BREAKDOWN -->
+    <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
+      <h2 class="text-xl font-bold text-text mb-1">Türkiye'deki Gizli Vergi Kalemleri</h2>
+      <p class="text-sm text-text-secondary mb-2 leading-relaxed">
+        Bir yazılımcının maaş bordrosunda görünen gelir vergisinin yanı sıra, SGK kesintileri,
+        damga vergisi, stopaj ve işveren payı gibi kalemler toplam vergi yükünü önemli ölçüde
+        artırıyor. Şirket sahibi yazılımcılar ise bunlara ek olarak kurumlar vergisi, KDV
+        ve geçici vergi ödemekle yükümlü.
+      </p>
+      <p class="text-xs text-text-muted mb-6">
+        Aşağıdaki tablo, Türkiye'deki bir yazılımcının karşılaştığı tüm vergi ve kesinti
+        kalemlerini göstermektedir. Oranlar 2024-2025 mevzuatına göre hesaplanmıştır.
       </p>
 
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead>
             <tr class="border-b border-border">
-              <th class="text-left py-2 text-xs text-text-muted font-medium">Yıl</th>
-              <th class="text-right py-2 text-xs text-text-muted font-medium">TÜİK (%)</th>
-              <th class="text-right py-2 text-xs text-text-muted font-medium">ENAG (%)</th>
-              <th class="text-right py-2 text-xs text-text-muted font-medium">Fark (kat)</th>
-              <th class="text-right py-2 text-xs text-text-muted font-medium">Küm. ENAG (x)</th>
+              <th class="text-left py-2 text-xs text-text-muted font-medium">Vergi / Kesinti</th>
+              <th class="text-right py-2 text-xs text-text-muted font-medium">Oran (%)</th>
+              <th class="text-left py-2 pl-6 text-xs text-text-muted font-medium">Açıklama</th>
             </tr>
           </thead>
           <tbody>
-            {inflationData.map((row, i) => (
+            {turkeyTaxBreakdown.map(row => (
               <tr class="border-b border-border/50">
-                <td class="py-2.5 font-mono text-xs text-text">{row.year}</td>
-                <td class="py-2.5 font-mono text-xs text-text-secondary text-right">%{row.tuik}</td>
-                <td class="py-2.5 font-mono text-xs text-chart-4 text-right">
-                  {row.enag !== null ? `%${row.enag}` : '-'}
-                </td>
-                <td class="py-2.5 font-mono text-xs text-text-dim text-right">
-                  {row.enag !== null ? `${(row.enag / row.tuik).toFixed(1)}x` : '-'}
-                </td>
-                <td class="py-2.5 font-mono text-xs text-accent text-right">{enagCumulative[i]}x</td>
+                <td class="py-2.5 text-xs text-text font-medium">{row.name}</td>
+                <td class="py-2.5 font-mono text-xs text-chart-4 text-right">%{row.rate}</td>
+                <td class="py-2.5 text-xs text-text-muted pl-6">{row.note}</td>
               </tr>
             ))}
           </tbody>
@@ -196,51 +251,13 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
 
       <p class="source-text mt-4">
         Kaynak:
-        <a href="https://enagrup.org" target="_blank" rel="noopener" class="text-accent hover:underline">ENAG</a>,
-        <a href="https://tuik.gov.tr" target="_blank" rel="noopener" class="text-accent hover:underline">TÜİK</a>
-      </p>
-    </div>
-
-    <!-- TAX RATES -->
-    <div class="bg-bg-white rounded-xl shadow-sm p-6 mb-8">
-      <h2 class="text-xl font-bold text-text mb-1">Ülkelere Göre Efektif Vergi Yükü</h2>
-      <p class="text-sm text-text-secondary mb-2 leading-relaxed max-w-[700px]">
-        Aşağıdaki tablo, orta seviye bir yazılımcının brüt maaşından eline geçen
-        net tutarı etkileyen toplam vergi yükünü ülkelere göre karşılaştırıyor.
-        Türkiye'nin efektif vergi oranı %36 ile orta sıralarda yer alsa da,
-        net maaşın dolar karşılığı en düşük seviyede.
-      </p>
-      <p class="text-xs text-text-muted mb-6">
-        Bir Türk yazılımcı, yıllık net $18.700 kazanırken aynı vergi dilimindeki
-        bir ABD'li yazılımcı $82.000 kazanıyor - 4.4 kat fark.
-      </p>
-
-      <div class="space-y-2">
-        {[...taxData].sort((a, b) => a.rate - b.rate).map(row => {
-          const isHighlight = row.flag === '🇹🇷';
-          return (
-            <div class={`flex items-center gap-3 py-1.5 ${isHighlight ? 'bg-chart-4/5 -mx-2 px-2 rounded-lg' : ''}`}>
-              <span class="text-sm w-5">{row.flag}</span>
-              <span class={`text-sm w-24 ${isHighlight ? 'font-semibold text-text' : 'text-text-body'}`}>{row.country}</span>
-              <div class="flex-1 h-5 bg-bg-chart rounded overflow-hidden">
-                <div
-                  class={`h-full rounded ${isHighlight ? 'bg-chart-4/60' : 'bg-accent/40'}`}
-                  style={`width: ${(row.rate / 45) * 100}%`}
-                />
-              </div>
-              <span class={`font-mono text-xs w-10 text-right ${isHighlight ? 'text-chart-4 font-bold' : 'text-text-muted'}`}>
-                %{row.rate}
-              </span>
-              <span class="font-mono text-xs text-text-dim w-20 text-right">${row.netUSD.toLocaleString('en-US')}/yıl</span>
-            </div>
-          );
-        })}
-      </div>
-
-      <p class="source-text mt-4">
-        Kaynak:
-        <a href="https://taxsummaries.pwc.com" target="_blank" rel="noopener" class="text-accent hover:underline">PwC Tax Summaries</a>
-        · Orta seviye yazılımcı, çalışan tarafı toplam yük
+        <a href="https://taxsummaries.pwc.com/turkey/individual/taxes-on-personal-income" target="_blank" rel="noopener" class="text-accent hover:underline">PwC Tax Summaries Turkey</a>,
+        <a href="https://www.gib.gov.tr/gibmevzuat" target="_blank" rel="noopener" class="text-accent hover:underline">GİB Mevzuat</a>,
+        <a href="https://www.mevzuat.gov.tr/MevzuatMetin/1.5.193.pdf" target="_blank" rel="noopener" class="text-accent hover:underline">193 Sayılı Gelir Vergisi Kanunu</a>,
+        <a href="https://www.sgk.gov.tr/Content/Post/20130108-1" target="_blank" rel="noopener" class="text-accent hover:underline">SGK Prim Oranları</a>,
+        <a href="https://www.resmigazete.gov.tr" target="_blank" rel="noopener" class="text-accent hover:underline">Resmi Gazete</a>,
+        <a href="https://www.oecd.org/tax/tax-policy/taxing-wages-turkey.pdf" target="_blank" rel="noopener" class="text-accent hover:underline">OECD Taxing Wages Turkey</a>,
+        <a href="https://www2.deloitte.com/tr/tr/pages/tax/articles/turkey-tax-guide.html" target="_blank" rel="noopener" class="text-accent hover:underline">Deloitte Turkey Tax Guide</a>
       </p>
     </div>
 

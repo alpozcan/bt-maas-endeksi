@@ -42,7 +42,7 @@ export default function Hero() {
         <p className="text-lg text-text-secondary leading-relaxed max-w-[650px] mb-12">
           5.002 yazılımcının anonim katılımıyla, 37 pozisyon ve 8 yıllık veri
           üzerinden hazırlanan Türkiye'nin en kapsamlı yazılım maaş analizi.
-          <a href="https://github.com/nicatdursunlu/yazilimmaas" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Bağımsız ve açık kaynak.</a>
+          <a href="https://github.com/alpozcan/bt-maas-endeksi" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Bağımsız ve açık kaynak.</a>
         </p>
       </motion.div>
 
@@ -78,14 +78,14 @@ export default function Hero() {
       <p className="source-text mt-6">
         Kaynak:{' '}
         <a
-          href="https://github.com/oncekiyazilimci"
+          href="https://github.com/nicatdursunlu/onceki-yazilimci-2026-anket-sonuclari"
           target="_blank"
           rel="noopener noreferrer"
           className="text-accent hover:underline"
         >
-          onceki yazilimci
+          önceki yazılımcı 2026 anketi
         </a>
-        {' '}2026 anketi, medyan aylık net TRY
+        , medyan aylık net TRY
       </p>
     </section>
   );
