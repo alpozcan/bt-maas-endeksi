@@ -6,6 +6,7 @@ import AIAdoption from './AIAdoption';
 import CompanyTypeSalary from './CompanyTypeSalary';
 import RoleBump from './RoleBump';
 import RoleRadar from './RoleRadar';
+import GlobalSalaryComparison from './GlobalSalaryComparison';
 
 export default function Dashboard() {
   return (
@@ -16,6 +17,7 @@ export default function Dashboard() {
       <AIAdoption />
       <CompanyTypeSalary />
       <RoleBump />
+      <GlobalSalaryComparison />
       <RoleRadar />
     </HighlightProvider>
   );
