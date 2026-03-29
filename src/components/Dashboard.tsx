@@ -7,6 +7,7 @@ import CompanyTypeSalary from './CompanyTypeSalary';
 import RoleBump from './RoleBump';
 import RoleRadar from './RoleRadar';
 import GlobalSalaryComparison from './GlobalSalaryComparison';
+import DataIntegrity from './DataIntegrity';
 
 export default function Dashboard() {
   return (
@@ -18,6 +19,7 @@ export default function Dashboard() {
       <CompanyTypeSalary />
       <RoleBump />
       <GlobalSalaryComparison />
+      <DataIntegrity />
       <RoleRadar />
     </HighlightProvider>
   );
