@@ -39,10 +39,10 @@ export default function Hero() {
           <span className="text-accent">Maaş Raporu</span>
         </h1>
 
-        <p className="text-lg text-text-secondary leading-relaxed max-w-[650px] mb-12">
-          5.002 yazılımcının anonim katılımıyla, 37 pozisyon ve 8 yıllık veri
-          üzerinden hazırlanan Türkiye'nin en kapsamlı yazılım maaş analizi.
-          <a href="https://github.com/alpozcan/bt-maas-endeksi" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Bağımsız ve açık kaynak.</a>
+        <p className="text-lg text-text-secondary leading-relaxed max-w-[700px] mb-12">
+          Bu rapor; önceki yazılımcı anketi (5.002 katılımcı), Levels.fyi (64.000+ beyan)
+          ve TÜİK verilerini temel alarak 37 pozisyon ve 9 yıllık maaş karşılaştırması sunmaktadır.{' '}
+          <a href="https://github.com/alpozcan/bt-maas-endeksi" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Açık kaynak.</a>
         </p>
       </motion.div>
 
