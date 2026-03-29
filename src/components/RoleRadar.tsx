@@ -40,7 +40,7 @@ export default function RoleRadar() {
             borderWidth={2}
             borderColor={{ from: 'color' }}
             colors={['#6366f1', '#10b981', '#f59e0b']}
-            fillOpacity={0.06}
+            fillOpacity={0.08}
             blendMode="multiply"
             dotSize={7}
             dotColor="#FFFFFF"
