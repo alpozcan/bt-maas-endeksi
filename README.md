@@ -1,175 +1,172 @@
-# BT Maas Endeksi
+# BT Maaş Endeksi
 
-Turkiye yazilim sektorunde maas seffafligini artirmak amaciyla gelistirilen bagimsiz ve acik kaynakli bir veri platformu. 5.002 yazilimcinin anonim katilimiyla, 37 pozisyon ve 8 yillik veri uzerinden hazirlanan Turkiye'nin en kapsamli yazilim maas analizi.
+Türkiye yazılım sektöründe maaş şeffaflığını artırmak amacıyla geliştirilen bağımsız ve açık kaynaklı bir veri platformu. 5.002 yazılımcının anonim katılımıyla, 37 pozisyon ve 8 yıllık veri üzerinden hazırlanan Türkiye'nin en kapsamlı yazılım maaş analizi.
 
-**Canli:** [btmaas.com](https://btmaas.com)
+**Canlı:** [bt-maas-endeksi.pages.dev](https://bt-maas-endeksi.pages.dev)
 
-## Icerik
+## İçerik
 
-- [Hakkinda](#hakkinda)
-- [Veri Kaynaklari](#veri-kaynaklari)
+- [Hakkında](#hakkında)
+- [Veri Kaynakları](#veri-kaynakları)
 - [Sayfalar](#sayfalar)
-- [Teknik Altyapi](#teknik-altyapi)
+- [Teknik Altyapı](#teknik-altyapı)
 - [Kurulum](#kurulum)
-- [Dosya Yapisi](#dosya-yapisi)
-- [Katki](#katki)
+- [Dosya Yapısı](#dosya-yapısı)
+- [Katkı](#katkı)
 - [Lisans](#lisans)
 
-## Hakkinda
+## Hakkında
 
-BT Maas Endeksi, Turkiye'deki yazilim sektorunde calisan gelistiricilerin maas verilerini gorsellestirir ve analiz eder. Platform asagidaki sorulara yanit aramayi amaclar:
+BT Maaş Endeksi, Türkiye'deki yazılım sektöründe çalışan geliştiricilerin maaş verilerini görselleştirir ve analiz eder. Platform aşağıdaki sorulara yanıt aramayı amaçlar:
 
-- Turkiye'de bir yazilimci hangi pozisyonda, hangi seviyede, ne kadar kazaniyor?
-- Son 8 yilda maaslar nasil degisti? Enflasyona yetisebildi mi?
-- Cinsiyet maas farki ne durumda? Diger sektorlerle karsilastirildiginda nerede?
-- Vergi yuku uluslararasi karsilastirmada nasil gorunuyor?
-- Hangi sirket turleri en yuksek maasi oduyor?
+- Türkiye'de bir yazılımcı hangi pozisyonda, hangi seviyede, ne kadar kazanıyor?
+- Son 8 yılda maaşlar nasıl değişti? Enflasyona yetişebildi mi?
+- Cinsiyet maaş farkı ne durumda? Diğer sektörlerle karşılaştırıldığında nerede?
+- Vergi yükü uluslararası karşılaştırmada nasıl görünüyor?
+- Hangi şirket türleri en yüksek maaşı ödüyor?
 
-Tum veriler halka acik kaynaklardan derlenmistir. Platform herhangi bir sirketin, ajansun veya istihdam platformunun reklam araci degildir.
+Tüm veriler halka açık kaynaklardan derlenmiştir. Platform herhangi bir şirketin, ajansın veya istihdam platformunun reklam aracı değildir.
 
-## Veri Kaynaklari
+## Veri Kaynakları
 
 ### Ana Kaynaklar
 
-| Kaynak | Aciklama | Donem |
+| Kaynak | Açıklama | Dönem |
 |--------|----------|-------|
-| [onceki yazilimci](https://github.com/oncekiyazilimci) | Yazilim sektoru maas anketi, 5.002 katilimci | 2018-2026 |
-| [Levels.fyi](https://www.levels.fyi) | 10 ulke yazilim muhendisi TC verileri, 64.000+ beyan | 2025 |
-| [Numbeo](https://www.numbeo.com) | Tum sektorler ortalama maas ve yasam maliyeti | 2025-2026 |
-| [ENAG](https://enagrup.org) | Bagimsiz enflasyon verileri | 2020-2025 |
-| [TUIK](https://tuik.gov.tr) | Resmi istihdam ve ucret istatistikleri | 2023-2025 |
+| [önceki yazılımcı](https://github.com/oncekiyazilimci) | Yazılım sektörü maaş anketi, 5.002 katılımcı | 2018-2026 |
+| [Levels.fyi](https://www.levels.fyi) | 10 ülke yazılım mühendisi toplam ücret verileri, 64.000+ beyan | 2025 |
+| [Numbeo](https://www.numbeo.com) | Tüm sektörler ortalama maaş ve yaşam maliyeti | 2025-2026 |
+| [ENAG](https://enagrup.org) | Bağımsız enflasyon verileri | 2020-2025 |
+| [TÜİK](https://tuik.gov.tr) | Resmi istihdam ve ücret istatistikleri | 2023-2025 |
 
 ### Ek Kaynaklar
 
 | Kaynak | Kapsam |
 |--------|--------|
 | [The Economist](https://www.economist.com/big-mac-index) | Big Mac Endeksi |
-| [PwC Tax Summaries](https://taxsummaries.pwc.com) | Efektif vergi oranlari |
-| [OECD](https://www.oecd.org/tax/) | Vergilendirme karsilastirmasi |
-| [ILO/TURKSTAT](https://ilostat.ilo.org) | Kazanc Yapisi Arastirmasi |
-| [World Bank](https://data.worldbank.org) | Kadin isgucune katilim oranlari |
-| [Cambridge Core](https://doi.org/10.1017/S1474747224000088) | Cinsiyet maas farki arastirmasi (14M veri) |
-| [GIB](https://www.gib.gov.tr) | Turkiye vergi mevzuati |
+| [PwC Tax Summaries](https://taxsummaries.pwc.com) | Efektif vergi oranları |
+| [OECD](https://www.oecd.org/tax/) | Vergilendirme karşılaştırması |
+| [ILO/TURKSTAT](https://ilostat.ilo.org) | Kazanç Yapısı Araştırması |
+| [World Bank](https://data.worldbank.org) | Kadın işgücüne katılım oranları |
+| [Cambridge Core](https://doi.org/10.1017/S1474747224000088) | Cinsiyet maaş farkı araştırması (14 milyon veri) |
+| [GİB](https://www.gib.gov.tr) | Türkiye vergi mevzuatı |
 
 ## Sayfalar
 
-| Sayfa | Yol | Aciklama |
+| Sayfa | Yol | Açıklama |
 |-------|-----|----------|
-| Rapor | `/` | 8 interaktif grafik, kategori filtreleme, cross-highlight |
-| Dagilim | `/dagilim/` | 5.002 yazilimcinin deneyim-maas sacilim grafigi |
-| Cinsiyet Farki | `/cinsiyet/` | Cinsiyet maas farki analizi, sektor karsilastirmasi |
-| Enflasyon | `/enflasyon/` | Tantuni Endeksi, vergi yuku, kira/maas |
+| Rapor | `/` | 10 interaktif grafik, kategori filtreleme, cross-highlight |
+| Dağılım | `/dagilim/` | 5.002 yazılımcının deneyim-maaş saçılım grafiği |
+| Cinsiyet Farkı | `/cinsiyet/` | Cinsiyet maaş farkı analizi, sektör karşılaştırması |
+| Enflasyon | `/enflasyon/` | Tantuni Endeksi, vergi yükü, kira/maaş |
 
-### Rapor sayfasindaki grafikler
+### Rapor sayfasındaki grafikler
 
-- **Maas trendi (2018-2026):** Junior/Mid/Senior/Asgari Ucret, logaritmik olcek
-- **Pozisyon siralamasi:** 27 pozisyon, kategori filtreleme, cross-highlight
-- **Yapay zeka arac kullanimi:** Turkiye vs dunya karsilastirmasi
-- **Sirket turune gore maas:** Bahis, banka, startup vb. karsilastirma
-- **Pozisyon siralama degisimi:** 14 rolun 2020-2026 bump chart'i
-- **Uluslararasi karsilastirma:** Turkiye vs ABD vs Almanya radar grafigi
+- **Maaş trendi (2018-2026):** Junior/Mid/Senior/Asgari Ücret, logaritmik ölçek
+- **Pozisyon sıralaması:** 27 pozisyon, kategori filtreleme, cross-highlight
+- **Yapay zeka araç kullanımı:** Türkiye vs dünya karşılaştırması
+- **Şirket türüne göre maaş:** Bahis, banka, startup vb. karşılaştırma
+- **Pozisyon sıralama değişimi:** 14 rolün 2020-2026 bump chart'ı
+- **20 ülke toplam ücret karşılaştırması:** Levels.fyi P25/P50/P75 verileri
+- **Veri kaynakları arası tutarlılık analizi:** önceki yazılımcı vs Levels.fyi
+- **Uluslararası karşılaştırma:** Türkiye vs ABD vs Almanya radar grafiği
 
-## Teknik Altyapi
+## Teknik Altyapı
 
-| Teknoloji | Kullanim |
+| Teknoloji | Kullanım |
 |-----------|----------|
-| [Astro 6](https://astro.build) | Statik site uretici, View Transitions |
-| [React 19](https://react.dev) | Interaktif grafik bilesenleri |
+| [Astro 6](https://astro.build) | Statik site üretici, View Transitions |
+| [React 19](https://react.dev) | İnteraktif grafik bileşenleri |
 | [Nivo](https://nivo.rocks) | Line, Bump, Radar grafikleri |
-| [Recharts](https://recharts.org) | Sacilim grafigi |
-| [Tailwind CSS 4](https://tailwindcss.com) | Tasarim sistemi |
+| [Recharts](https://recharts.org) | Saçılım grafiği |
+| [Tailwind CSS 4](https://tailwindcss.com) | Tasarım sistemi |
 | [Framer Motion](https://www.framer.com/motion/) | Scroll-triggered animasyonlar |
-| [Playwright](https://playwright.dev) | Gorsel regresyon testleri |
-| [Vitest](https://vitest.dev) | Veri butunlugu testleri |
 
 ## Kurulum
 
 **Gereksinimler:** Node.js >= 22.12.0
 
 ```bash
-# Depoyu klonla
+# Depoyu klonlayın
 git clone https://github.com/alpozcan/bt-maas-endeksi.git
 cd bt-maas-endeksi
 
-# Bagimliliklari kur
+# Bağımlılıkları kurun
 npm install
 
-# Gelistirme sunucusunu baslat
+# Geliştirme sunucusunu başlatın
 npm run dev
 ```
 
-Tarayicida `http://localhost:4321` adresini ac.
+Tarayıcıda `http://localhost:4321` adresini açın.
 
-### Diger komutlar
+### Diğer komutlar
 
-| Komut | Aciklama |
+| Komut | Açıklama |
 |-------|----------|
-| `npm run dev` | Gelistirme sunucusu (localhost:4321) |
-| `npm run build` | Uretim icin derle (`./dist/`) |
-| `npm run preview` | Derlenmis siteyi onizle |
-| `npx vitest run` | Veri butunlugu testlerini calistir |
-| `npx playwright test` | Gorsel regresyon testleri |
+| `npm run dev` | Geliştirme sunucusu (localhost:4321) |
+| `npm run build` | Üretim için derle (`./dist/`) |
+| `npm run preview` | Derlenmiş siteyi önizle |
 
-## Dosya Yapisi
+## Dosya Yapısı
 
 ```
 bt-maas-endeksi/
 ├── public/
 │   └── data/
-│       └── survey-2025.json          # onceki yazilimci anket verisi (380KB)
+│       └── survey-2025.json          # önceki yazılımcı anket verisi (380KB)
 ├── src/
 │   ├── components/
-│   │   ├── Dashboard.tsx             # Ana rapor bileseni (React)
-│   │   ├── Hero.tsx                  # Baslik ve KPI kartlari
-│   │   ├── TrendChart.tsx            # 8 yillik maas trendi (Nivo Line)
-│   │   ├── RoleBar.tsx               # Pozisyon siralamasi
-│   │   ├── AIAdoption.tsx            # Yapay zeka arac kullanimi
-│   │   ├── CompanyTypeSalary.tsx     # Sirket turune gore maas
-│   │   ├── RoleBump.tsx              # Pozisyon siralama degisimi (Nivo Bump)
-│   │   ├── RoleRadar.tsx             # Uluslararasi karsilastirma (Nivo Radar)
-│   │   ├── SalaryScatter.tsx         # Deneyim-maas sacilim grafigi (Recharts)
+│   │   ├── Dashboard.tsx             # Ana rapor bileşeni (React)
+│   │   ├── Hero.tsx                  # Başlık ve KPI kartları
+│   │   ├── TrendChart.tsx            # 8 yıllık maaş trendi (Nivo Line)
+│   │   ├── RoleBar.tsx               # Pozisyon sıralaması
+│   │   ├── AIAdoption.tsx            # Yapay zeka araç kullanımı
+│   │   ├── CompanyTypeSalary.tsx     # Şirket türüne göre maaş
+│   │   ├── RoleBump.tsx              # Pozisyon sıralama değişimi (Nivo Bump)
+│   │   ├── GlobalSalaryComparison.tsx # 20 ülke Levels.fyi karşılaştırması
+│   │   ├── DataIntegrity.tsx         # Veri kaynakları tutarlılık analizi
+│   │   ├── RoleRadar.tsx             # Uluslararası karşılaştırma (Nivo Radar)
+│   │   ├── SalaryScatter.tsx         # Deneyim-maaş saçılım grafiği (Recharts)
 │   │   ├── HighlightContext.tsx      # Cross-chart highlight state
 │   │   ├── CategoryFilter.tsx        # Kategori filtreleme
 │   │   ├── FadeIn.tsx                # Scroll-triggered animasyon
 │   │   ├── Nav.astro                 # Sticky navigasyon
 │   │   ├── Footer.astro              # 3 kolonlu footer + kaynaklar
-│   │   ├── Editorial.astro           # "Maas Verisi Neden Onemli?" bolumu
-│   │   └── IznimvarBanner.astro      # iznimvar.com yonlendirmesi
+│   │   ├── Editorial.astro           # "Maaş Verisi Neden Önemli?" bölümü
+│   │   └── IznimvarBanner.astro      # iznimvar.com yönlendirmesi
 │   ├── data/
-│   │   └── salaries.ts               # Tum maas, trend ve kategori verileri
+│   │   └── salaries.ts               # Tüm maaş, trend ve kategori verileri
 │   ├── layouts/
-│   │   └── Layout.astro              # Sayfa sablonu + View Transitions
+│   │   └── Layout.astro              # Sayfa şablonu + View Transitions
 │   ├── pages/
-│   │   ├── index.astro               # Ana rapor sayfasi
-│   │   ├── dagilim/index.astro       # Sacilim grafigi sayfasi
-│   │   ├── cinsiyet/index.astro      # Cinsiyet farki analizi
+│   │   ├── index.astro               # Ana rapor sayfası
+│   │   ├── dagilim/index.astro       # Saçılım grafiği sayfası
+│   │   ├── cinsiyet/index.astro      # Cinsiyet farkı analizi
 │   │   └── enflasyon/index.astro     # Enflasyon ve vergi analizi
 │   └── styles/
-│       └── global.css                # Tailwind + tasarim tokenlari
-├── tests/
-│   ├── data.test.ts                  # Veri butunlugu (Vitest)
-│   └── visual.spec.ts               # Gorsel regresyon (Playwright)
+│       └── global.css                # Tailwind + tasarım tokenleri
 ├── package.json
 ├── astro.config.mjs
 ├── LICENSE                           # MIT
 └── README.md
 ```
 
-## Katki
+## Katkı
 
-Katkida bulunmak istiyorsaniz:
+Katkıda bulunmak istiyorsanız:
 
-- Veri hatalarini bildirmek icin bir issue acin
-- Yeni grafik veya analiz onerileri icin tartisma baslatin
-- Turkce dilbilgisi duzeltmeleri her zaman memnuniyetle karsilanir
-- Pull request gondermeden once `npm run build` ile derlemenin basarili oldugundan emin olun
+- Veri hatalarını bildirmek için bir issue açın
+- Yeni grafik veya analiz önerileri için tartışma başlatın
+- Türkçe dilbilgisi düzeltmeleri her zaman memnuniyetle karşılanır
+- Pull request göndermeden önce `npm run build` ile derlemenin başarılı olduğundan emin olun
 
-Yan haklari karsilastirmak icin [iznimvar.com](https://iznimvar.com) adresini ziyaret edebilirsiniz.
+Yan hakları karşılaştırmak için [iznimvar.com](https://iznimvar.com) adresini ziyaret edebilirsiniz.
 
 ## Lisans
 
-Bu proje [MIT Lisansi](LICENSE) ile lisanslanmistir.
+Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.
 
 ---
 
-Veriler yaklasik olup yalnizca bilgilendirme amacidir. TR verileri net (vergi sonrasi), kuresel veriler brut yilliktir.
+Veriler yaklaşık olup yalnızca bilgilendirme amacıdır. TR verileri net (vergi sonrası), küresel veriler brüt yıllıktır.
