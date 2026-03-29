@@ -31,7 +31,7 @@ export default function RoleRadar() {
         AI/ML alanında Türkiye-ABD farkı en yüksek
       </h2>
       <p className="text-sm text-text-secondary mb-6">
-        Pozisyon bazında yıllık brüt maaş karşılaştırması — Türkiye vs ABD vs Almanya ($K)
+        Pozisyon bazında yıllık brüt maaş karşılaştırması - Türkiye vs ABD vs Almanya ($K)
       </p>
       <div className="bg-bg-white rounded-xl shadow-sm p-5 pb-4">
         {/* Inline direct labels instead of legend */}

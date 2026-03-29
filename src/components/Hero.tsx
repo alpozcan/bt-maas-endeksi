@@ -29,34 +29,24 @@ function MiniSparkline({ data, color }: { data: number[]; color: string }) {
 export default function Hero() {
   return (
     <section className="max-w-[960px] mx-auto px-6 pt-24 pb-16">
-      {/* Rule #3: Left-aligned bold title + regular subtitle */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        {/* Source badge */}
-        <div className="flex items-center gap-2 mb-6">
-          <span className="inline-block w-2 h-2 rounded-full bg-accent" />
-          <span className="text-xs font-medium text-text-secondary tracking-wide">
-            önceki yazılımcı 2026 · 5.002 katılımcı · 37 pozisyon
-          </span>
-        </div>
-
-        {/* Rule #1: Large headline, not-quite-black */}
         <h1 className="text-[clamp(2.5rem,5vw,3.5rem)] font-black leading-[1.1] tracking-[-2px] text-text mb-4">
           Türkiye Yazılım Sektörü{' '}
           <span className="text-accent">Maaş Raporu</span>
         </h1>
 
-        {/* Rule #20: Descriptive subtitle */}
         <p className="text-lg text-text-secondary leading-relaxed max-w-[650px] mb-12">
-          2018'den 2026'ya, binlerce yazılımcının anonim katılımıyla oluşturulan
-          Türkiye'nin en kapsamlı maaş analizi. Veriye dayalı, bağımsız, açık kaynak.
+          5.002 yazılımcının anonim katılımıyla, 37 pozisyon ve 8 yıllık veri
+          üzerinden hazırlanan Türkiye'nin en kapsamlı yazılım maaş analizi.
+          Bağımsız, açık kaynak, reklamsız.
         </p>
       </motion.div>
 
-      {/* KPI Cards — Rule #14: subtle shadow, no borders */}
+      {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {kpis.map((kpi, i) => (
           <motion.div
@@ -85,9 +75,17 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Source attribution — Rule #4 */}
       <p className="source-text mt-6">
-        Kaynak: önceki yazılımcı 2026 anketi · Medyan aylık net TRY
+        Kaynak:{' '}
+        <a
+          href="https://github.com/oncekiyazilimci"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-accent hover:underline"
+        >
+          onceki yazilimci
+        </a>
+        {' '}2026 anketi, medyan aylik net TRY
       </p>
     </section>
   );

@@ -63,7 +63,7 @@ const sortedRent = [...rentData].sort((a, b) => b.ratio - a.ratio);
 const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
 ---
 
-<Layout title="Enflasyon ve Satın Alma Gücü — yazılımmaaş" active="enflasyon" description="Yazılımcı maaşları enflasyona yetişebildi mi? ENAG vs TUIK, vergi yükü, kira/maaş oranı ve satın alma gücü analizi.">
+<Layout title="Enflasyon ve Satın Alma Gücü - yazılımmaaş" active="enflasyon" description="Yazılımcı maaşları enflasyona yetişebildi mi? ENAG vs TUIK, vergi yükü, kira/maaş oranı ve satın alma gücü analizi.">
   <section class="max-w-[960px] mx-auto px-6 pt-16 pb-4">
     <h1 class="text-3xl font-bold text-text tracking-tight mb-2">Yazılımcı Maaşları ve Enflasyon</h1>
     <p class="text-base text-text-secondary leading-relaxed max-w-[700px] mb-4">
@@ -114,7 +114,7 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
         Mavi çubuk gerçek maaşı, kırmızı arka plan olması gereken düzeyi temsil ediyor.
       </p>
       <p class="text-xs text-text-muted mb-6 leading-relaxed max-w-[700px]">
-        2025 itibarıyla aradaki fark ₺{Math.round((enagAdjusted[7] - nominalJunior[7]) / 1000)}K'ye ulaştı —
+        2025 itibarıyla aradaki fark ₺{Math.round((enagAdjusted[7] - nominalJunior[7]) / 1000)}K'ye ulaştı -
         yani bir junior yazılımcının maaşı, enflasyona ayak uydurabilmek için yaklaşık
         ₺{Math.round(enagAdjusted[7] / 1000)}K olmalıydı.
       </p>
@@ -182,10 +182,10 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
                 <td class="py-2.5 font-mono text-xs text-text">{row.year}</td>
                 <td class="py-2.5 font-mono text-xs text-text-secondary text-right">%{row.tuik}</td>
                 <td class="py-2.5 font-mono text-xs text-chart-4 text-right">
-                  {row.enag !== null ? `%${row.enag}` : '—'}
+                  {row.enag !== null ? `%${row.enag}` : '-'}
                 </td>
                 <td class="py-2.5 font-mono text-xs text-text-dim text-right">
-                  {row.enag !== null ? `${(row.enag / row.tuik).toFixed(1)}x` : '—'}
+                  {row.enag !== null ? `${(row.enag / row.tuik).toFixed(1)}x` : '-'}
                 </td>
                 <td class="py-2.5 font-mono text-xs text-accent text-right">{enagCumulative[i]}x</td>
               </tr>
@@ -212,7 +212,7 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
       </p>
       <p class="text-xs text-text-muted mb-6">
         Bir Türk yazılımcı, yıllık net $18.700 kazanırken aynı vergi dilimindeki
-        bir ABD'li yazılımcı $82.000 kazanıyor — 4.4 kat fark.
+        bir ABD'li yazılımcı $82.000 kazanıyor - 4.4 kat fark.
       </p>
 
       <div class="space-y-2">
@@ -249,7 +249,7 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
       <h2 class="text-xl font-bold text-text mb-1">Kira ve Maaş: Uluslararası Karşılaştırma</h2>
       <p class="text-sm text-text-secondary mb-2 leading-relaxed max-w-[700px]">
         Bir yazılımcının şehir merkezinde 1+1 daire kirası, aylık net maaşının ne
-        kadarını yiyor? İstanbul %43 ile listenin en üst sırasında — Berlin'in iki
+        kadarını yiyor? İstanbul %43 ile listenin en üst sırasında - Berlin'in iki
         katından fazla, Tallinn'in üç katı.
       </p>
       <p class="text-xs text-text-muted mb-6">
@@ -305,7 +305,7 @@ const maxRatio = Math.max(...sortedRent.map(r => r.ratio));
       <p class="text-sm text-text-body leading-relaxed">
         Kira/maaş oranında İstanbul %43 ile zirvede. Berlin'de (%19) ya da
         Tallinn'de (%14) aynı mesleği yapan bir yazılımcı, maaşının çok daha az
-        bir kısmını barınmaya ayırıyor. Bu üç faktör — enflasyon, vergi, kira —
+        bir kısmını barınmaya ayırıyor. Bu üç faktör - enflasyon, vergi, kira -
         bir araya geldiğinde, nominal zam oranlarının neden "hissedilmediğini" açıklıyor.
       </p>
     </div>

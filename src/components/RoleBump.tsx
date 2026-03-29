@@ -37,7 +37,7 @@ export default function RoleBump() {
         AI Engineer 2020'de 10. sıradayken bugün 4. sıraya yükseldi
       </h2>
       <p className="text-sm text-text-secondary mb-6">
-        Senior medyan maaşa göre pozisyon sıralaması değişimi — 2020–2026
+        Senior medyan maaşa göre pozisyon sıralaması değişimi - 2020–2026
       </p>
       <div className="bg-bg-white rounded-xl shadow-sm p-5 pb-4">
         <div className="h-[360px]">

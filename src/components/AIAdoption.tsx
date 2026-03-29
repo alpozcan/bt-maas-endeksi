@@ -11,7 +11,7 @@ export default function AIAdoption() {
         Yazılımcıların %67.8'i AI araçları kullanıyor
       </h2>
       <p className="text-sm text-text-secondary mb-6">
-        Claude açık ara lider — katılımcıların yarısından fazlası kullanıyor
+        Claude açık ara lider - katılımcıların yarısından fazlası kullanıyor
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

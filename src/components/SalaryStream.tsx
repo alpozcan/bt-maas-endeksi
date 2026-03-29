@@ -47,7 +47,7 @@ export default function SalaryStream() {
         Tüm kategorilerde maaşlar paralel yükseldi
       </h2>
       <p className="text-sm text-text-secondary mb-6">
-        Kategori bazında medyan maaş akışı — ₺K aylık net TRY
+        Kategori bazında medyan maaş akışı - ₺K aylık net TRY
       </p>
       <div className="bg-bg-white rounded-xl shadow-sm p-6 pb-4">
         <div className="h-[360px]">

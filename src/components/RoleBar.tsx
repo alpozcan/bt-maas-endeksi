@@ -1,5 +1,6 @@
 import { roles, categories, type Category } from '../data/salaries';
 import { useHighlight } from './HighlightContext';
+import CategoryFilter from './CategoryFilter';
 
 const sorted = [...roles].sort((a, b) => b.sr - a.sr);
 const maxSr = sorted[0].sr;
@@ -12,11 +13,14 @@ export default function RoleBar() {
   return (
     <section className="max-w-[960px] mx-auto px-6 section" data-section="roles">
       <h2 className="text-2xl font-bold text-text tracking-tight mb-1">
-        CTO ve Architect en yüksek maaşı alıyor
+        En yuksek maasi CTO ve Architect aliyor
       </h2>
-      <p className="text-sm text-text-secondary mb-6">
-        Senior medyan aylık net TRY — pozisyon bazında sıralama
+      <p className="text-sm text-text-secondary mb-4">
+        Pozisyon bazinda senior medyan aylik net maas (TRY)
       </p>
+      <div className="mb-6">
+        <CategoryFilter />
+      </div>
 
       <div className="bg-bg-white rounded-xl shadow-sm p-5">
         <div className="space-y-2">

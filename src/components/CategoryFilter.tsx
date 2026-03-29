@@ -5,7 +5,7 @@ export default function CategoryFilter() {
   const { filterCategories, toggleFilter, activeCategory, setActiveCategory } = useHighlight();
 
   return (
-    <div className="max-w-[960px] mx-auto px-6 pb-2 pt-4">
+    <div>
       <div className="flex items-center gap-2 flex-wrap">
         <span className="text-xs text-text-muted font-medium mr-1">Filtrele:</span>
         {(Object.entries(categories) as [Category, { label: string; color: string }][]).map(([key, cat]) => {
