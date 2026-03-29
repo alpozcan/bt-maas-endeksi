@@ -1,15 +1,6 @@
 import { ResponsiveLine } from '@nivo/line';
 import { trend, years } from '../data/salaries';
 
-/* Rules applied:
-   #3: Left-aligned bold title + regular subtitle
-   #6: Max 3-4 colors per chart
-   #15: Horizontal gridlines only, light grey
-   #16: Direct labeling on chart
-   #17: Y-axis labels inside chart area
-   #20: Title + subtitle + source
-*/
-
 const data = [
   {
     id: 'Senior',
@@ -28,6 +19,13 @@ const data = [
   },
 ];
 
+// Direct labels at end of each line (instead of legend)
+const endLabels = [
+  { id: 'Senior', y: trend.senior[8], color: '#ef4444' },
+  { id: 'Mid',    y: trend.mid[8],    color: '#6366f1' },
+  { id: 'Junior', y: trend.junior[8], color: '#10b981' },
+];
+
 const theme = {
   background: 'transparent',
   text: { fill: '#666666', fontSize: 12, fontFamily: 'Inter' },
@@ -36,7 +34,6 @@ const theme = {
       text: { fill: '#999999', fontSize: 11, fontFamily: 'JetBrains Mono' },
       line: { stroke: 'transparent' },
     },
-    legend: { text: { fill: '#666666', fontSize: 13, fontFamily: 'Inter', fontWeight: 500 } },
     domain: { line: { stroke: '#E5E5E5' } },
   },
   grid: { line: { stroke: '#EBEBEB', strokeWidth: 1 } },
@@ -58,7 +55,6 @@ const theme = {
 export default function TrendChart() {
   return (
     <section className="max-w-[960px] mx-auto px-6 section" data-section="trend">
-      {/* Rule #3: Bold title, regular subtitle */}
       <h2 className="text-2xl font-bold text-text tracking-tight mb-1">
         Maaş artışı 8 yılda 34 katına ulaştı
       </h2>
@@ -66,17 +62,16 @@ export default function TrendChart() {
         Aylık net TRY, seviyeye göre medyan — 2018'den 2026'ya
       </p>
 
-      {/* Rule #19: ~16:9 aspect ratio */}
       <div className="bg-bg-white rounded-xl shadow-sm p-6 pb-4">
-        <div className="h-[400px]">
+        <div className="h-[400px] relative">
           <ResponsiveLine
             data={data}
             theme={theme}
-            margin={{ top: 20, right: 80, bottom: 44, left: 60 }}
+            margin={{ top: 20, right: 90, bottom: 44, left: 60 }}
             xScale={{ type: 'point' }}
             yScale={{ type: 'linear', min: 0, max: 200000 }}
             curve="monotoneX"
-            colors={d => d.color ?? '#6366f1'}
+            colors={(d: { color?: string }) => d.color ?? '#6366f1'}
             lineWidth={2.5}
             enablePoints
             pointSize={6}
@@ -100,18 +95,33 @@ export default function TrendChart() {
             }}
             enableGridX={false}
             gridYValues={[0, 50000, 100000, 150000, 200000]}
-            /* Rule #16: Direct labels instead of legend */
-            legends={[
-              {
-                anchor: 'right',
-                direction: 'column',
-                translateX: 70,
-                itemWidth: 60,
-                itemHeight: 22,
-                itemTextColor: '#666',
-                symbolSize: 8,
-                symbolShape: 'circle',
-              },
+            legends={[]}
+            layers={[
+              'grid', 'markers', 'axes', 'areas', 'crosshair', 'lines', 'points', 'slices', 'mesh', 'legends',
+              // Direct end-of-line labels layer
+              ({ series, xScale, yScale }: { series: { id: string; color: string; data: { position: { x: number; y: number } }[] }[]; xScale: (v: string) => number; yScale: (v: number) => number }) => (
+                <g key="direct-labels">
+                  {series.map(s => {
+                    const lastPoint = s.data[s.data.length - 1];
+                    if (!lastPoint) return null;
+                    return (
+                      <g key={s.id} transform={`translate(${lastPoint.position.x + 10}, ${lastPoint.position.y})`}>
+                        <text
+                          style={{
+                            fill: s.color,
+                            fontSize: 12,
+                            fontFamily: 'Inter',
+                            fontWeight: 600,
+                          }}
+                          dominantBaseline="central"
+                        >
+                          {s.id}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </g>
+              ),
             ]}
             motionConfig="gentle"
           />

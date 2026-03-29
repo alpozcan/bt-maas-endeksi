@@ -9,6 +9,12 @@ const radarData = [
   { role: 'QA',       'Türkiye': 130, 'ABD': 600, 'Almanya': 408 },
 ];
 
+const countries = [
+  { key: 'Türkiye', color: '#6366f1' },
+  { key: 'ABD', color: '#10b981' },
+  { key: 'Almanya', color: '#f59e0b' },
+];
+
 const theme = {
   background: 'transparent',
   text: { fill: '#666', fontSize: 12, fontFamily: 'Inter' },
@@ -28,6 +34,15 @@ export default function RoleRadar() {
         Pozisyon bazında yıllık brüt maaş karşılaştırması — Türkiye vs ABD vs Almanya ($K)
       </p>
       <div className="bg-bg-white rounded-xl shadow-sm p-5 pb-4">
+        {/* Inline direct labels instead of legend */}
+        <div className="flex items-center gap-5 mb-3">
+          {countries.map(c => (
+            <span key={c.key} className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: c.color }}>
+              <span className="w-3 h-[2.5px] rounded-full inline-block" style={{ backgroundColor: c.color }} />
+              {c.key}
+            </span>
+          ))}
+        </div>
         <div className="h-[420px]">
           <ResponsiveRadar
             data={radarData}
@@ -48,12 +63,7 @@ export default function RoleRadar() {
             dotBorderColor={{ from: 'color' }}
             gridLevels={5}
             gridShape="circular"
-            legends={[{
-              anchor: 'top-left', direction: 'column',
-              translateX: -50, translateY: -30,
-              itemWidth: 70, itemHeight: 20,
-              itemTextColor: '#666', symbolSize: 10, symbolShape: 'circle',
-            }]}
+            legends={[]}
             motionConfig="gentle"
           />
         </div>

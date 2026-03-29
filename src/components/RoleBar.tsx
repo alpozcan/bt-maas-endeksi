@@ -1,19 +1,14 @@
 import { roles, categories, type Category } from '../data/salaries';
+import { useHighlight } from './HighlightContext';
 
-/* Rules applied:
-   #3: Bold title + descriptive subtitle
-   #6: Max 4 colors (one per category)
-   #7: Grey out non-essential, color only the story
-   #15: Horizontal gridlines only
-   #16: Direct labeling on bars
-   #20: Title + subtitle + source
-*/
-
-// Sort by senior salary descending
 const sorted = [...roles].sort((a, b) => b.sr - a.sr);
 const maxSr = sorted[0].sr;
 
 export default function RoleBar() {
+  const { isFiltered, isHighlighted, setActiveCategory } = useHighlight();
+
+  const visible = sorted.filter(r => isFiltered(r.cat as Category));
+
   return (
     <section className="max-w-[960px] mx-auto px-6 section" data-section="roles">
       <h2 className="text-2xl font-bold text-text tracking-tight mb-1">
@@ -23,34 +18,36 @@ export default function RoleBar() {
         Senior medyan aylık net TRY — pozisyon bazında sıralama
       </p>
 
-      <div className="bg-bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-bg-white rounded-xl shadow-sm p-5">
         <div className="space-y-2">
-          {sorted.map((role, i) => {
+          {visible.map((role, i) => {
             const catInfo = categories[role.cat as Category];
             const pct = (role.sr / maxSr) * 100;
+            const highlighted = isHighlighted(role.cat as Category);
             return (
-              <div key={role.name} className="group flex items-center gap-3">
-                {/* Rank */}
+              <div
+                key={role.name}
+                className="group flex items-center gap-3 transition-opacity duration-200 cursor-pointer"
+                style={{ opacity: highlighted ? 1 : 0.2 }}
+                onMouseEnter={() => setActiveCategory(role.cat as Category)}
+                onMouseLeave={() => setActiveCategory(null)}
+              >
                 <span className="font-mono text-xs text-text-dim w-5 text-right">
                   {i + 1}
                 </span>
-
-                {/* Role name */}
                 <span className="text-sm font-medium text-text-body w-[200px] shrink-0 truncate">
                   {role.name}
                 </span>
-
-                {/* Bar — Rule #7: color only for the data */}
                 <div className="flex-1 h-7 bg-bg-chart rounded relative overflow-hidden">
                   <div
-                    className="h-full rounded transition-all duration-500 ease-out flex items-center"
+                    className="h-full rounded transition-all duration-500 ease-out"
                     style={{
                       width: `${pct}%`,
                       backgroundColor: catInfo.color,
-                      opacity: 0.75,
+                      opacity: highlighted ? 0.8 : 0.25,
                     }}
                   />
-                  {/* Direct label — Rule #16 */}
+                  {/* Direct label on bar */}
                   <span
                     className="absolute right-2 top-1/2 -translate-y-1/2 font-mono text-xs font-semibold"
                     style={{ color: catInfo.color }}
@@ -58,27 +55,12 @@ export default function RoleBar() {
                     ₺{role.sr}K
                   </span>
                 </div>
-
-                {/* Participant count */}
                 <span className="font-mono text-xs text-text-muted w-16 text-right">
                   {role.n.toLocaleString('tr-TR')}
                 </span>
               </div>
             );
           })}
-        </div>
-
-        {/* Legend — minimal */}
-        <div className="flex gap-4 mt-4 pt-3 border-t border-border">
-          {Object.entries(categories).map(([key, cat]) => (
-            <div key={key} className="flex items-center gap-1.5">
-              <span
-                className="w-2.5 h-2.5 rounded-sm"
-                style={{ backgroundColor: cat.color }}
-              />
-              <span className="text-xs text-text-muted">{cat.label}</span>
-            </div>
-          ))}
         </div>
 
         <p className="source-text mt-3">

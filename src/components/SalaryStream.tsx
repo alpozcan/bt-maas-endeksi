@@ -1,5 +1,7 @@
 import { ResponsiveStream } from '@nivo/stream';
 import { years } from '../data/salaries';
+import { useHighlight } from './HighlightContext';
+import type { Category } from '../data/salaries';
 
 const streamData = years.map((_, i) => ({
   'Geliştirme': [12, 14, 17, 22, 35, 60, 95, 130, 165][i],
@@ -7,6 +9,13 @@ const streamData = years.map((_, i) => ({
   'Altyapı': [5, 6, 8, 11, 18, 32, 55, 78, 105][i],
   'Yönetim': [8, 10, 13, 18, 30, 55, 100, 145, 200][i],
 }));
+
+const keyToCat: Record<string, Category> = {
+  'Geliştirme': 'dev',
+  'Veri & YZ': 'data',
+  'Altyapı': 'infra',
+  'Yönetim': 'mgmt',
+};
 
 const theme = {
   background: 'transparent',
@@ -21,6 +30,17 @@ const theme = {
 };
 
 export default function SalaryStream() {
+  const { activeCategory } = useHighlight();
+
+  // Dim colors when a category is highlighted
+  const colors = ['#6366f1', '#10b981', '#f59e0b', '#ef4444'];
+  const keys = ['Geliştirme', 'Veri & YZ', 'Altyapı', 'Yönetim'];
+
+  const getOpacity = (key: string) => {
+    if (activeCategory === null) return 0.65;
+    return keyToCat[key] === activeCategory ? 0.85 : 0.15;
+  };
+
   return (
     <section className="max-w-[960px] mx-auto px-6 section" data-section="stream">
       <h2 className="text-2xl font-bold text-text tracking-tight mb-1">
@@ -33,7 +53,7 @@ export default function SalaryStream() {
         <div className="h-[360px]">
           <ResponsiveStream
             data={streamData}
-            keys={['Geliştirme', 'Veri & YZ', 'Altyapı', 'Yönetim']}
+            keys={keys}
             theme={theme}
             margin={{ top: 16, right: 100, bottom: 36, left: 48 }}
             axisBottom={{
@@ -43,16 +63,38 @@ export default function SalaryStream() {
             }}
             axisLeft={null}
             offsetType="diverging"
-            colors={['#6366f1', '#10b981', '#f59e0b', '#ef4444']}
+            colors={colors}
             fillOpacity={0.65}
             borderColor={{ theme: 'background' }}
             enableDots={false}
             curve="catmullRom"
-            legends={[{
-              anchor: 'right', direction: 'column', translateX: 90,
-              itemWidth: 80, itemHeight: 22, itemTextColor: '#666',
-              symbolSize: 10, symbolShape: 'circle',
-            }]}
+            legends={[]}
+            layers={[
+              'grid', 'axes', 'layers', 'dots',
+              // Direct labels at the right edge
+              ({ layers: streamLayers }: { layers: { id: string; color: string; path: string }[] }) => (
+                <g key="direct-labels">
+                  {streamLayers.map((layer) => {
+                    const highlighted = activeCategory === null || keyToCat[layer.id] === activeCategory;
+                    return (
+                      <text
+                        key={layer.id}
+                        x="100%"
+                        y="0"
+                        style={{
+                          fill: highlighted ? layer.color : '#ccc',
+                          fontSize: 11,
+                          fontFamily: 'Inter',
+                          fontWeight: 600,
+                        }}
+                      >
+                        {layer.id}
+                      </text>
+                    );
+                  })}
+                </g>
+              ),
+            ]}
           />
         </div>
         <p className="source-text mt-2">Kaynak: önceki yazılımcı anketleri 2018–2026</p>
